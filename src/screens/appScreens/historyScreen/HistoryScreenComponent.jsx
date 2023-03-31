@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeContext } from '../../../context/ThemeContext';
 import { AccountContext } from '../../../context/LoginContext';
 import { ref, get } from "firebase/database";
+import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 
 export default function HistoryScreenComponent() {
 
@@ -64,7 +65,7 @@ export default function HistoryScreenComponent() {
                 </View>: null}
 
             {historial? 
-                <View style={[{flex: 1}]}>
+                <View style={[{flex: 1, paddingBottom: responsiveScreenHeight(7)}]}>
                     <VideoList section={'Historial'} data={historial} isDarkThemeEnabled={isDarkThemeEnabled}/>
                 </View>: null}
       

@@ -25,51 +25,39 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
 
     //Api video request
     const apiVideoData = async (stringToTranslate) => {
-        
+
         try {
-            const result = await getAnimation(stringToTranslate);
+            const result = await getAnimation(stringToTranslate.toLowerCase());
             setApiRequestData(result.data);
           
         } catch (error) {
             console.log(error);
-            alert("No se pudo encontrar el video")
-            setComponentStatus(false)
         }
     }
+
+    useEffect(() => {
+        if(componentStatus == true && (stringTranslated != null && stringTranslated != '')){
+            setApiRequestData(undefined);
+            apiVideoData(stringTranslated);
+        }
+    }, [stringTranslated])
+
 
     //Video Request hook
     useEffect(() => {
         if(componentStatus == true && (stringTranslated != null && stringTranslated != '')){
+            setApiRequestData(undefined);
             apiVideoData(stringTranslated);
         }
-
     }, [componentStatus])
 
 
     const addFavoriteHandler = () => {
-
-        push(ref(database, FB_USERS_PATH + user.uid + "/" + FB_FAVORITES_PATH), {
-            string: stringTranslated
-        })
-        .then(
-            console.log("Guardado con exito")
-        )
-        .catch(error => {
-            console.log(error)
-        })
+        push(ref(database, FB_USERS_PATH + user.uid + "/" + FB_FAVORITES_PATH), {string: stringTranslated}).then().catch(error => {console.log(error)})
     }
 
     const addHistoryHandler = () => {
-
-        push(ref(database, FB_USERS_PATH + user.uid + "/" + FB_HISTORY_PATH), {
-            string: stringTranslated
-        })
-        .then(
-            console.log("Guardado con exito")
-        )
-        .catch(error => {
-            console.log(error)
-        })
+        push(ref(database, FB_USERS_PATH + user.uid + "/" + FB_HISTORY_PATH), {string: stringTranslated}).then(console.log("Guardado con exito")).catch(error => {console.log(error)})
     }
 
     
@@ -81,7 +69,7 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
                 <Text style={[styles.stringStyle, isDarkThemeEnabled? {color: 'white'} : {color: 'black'}]}>{stringTranslated}</Text>
             </View>
       
-            <View style={componentStatus? styles.videoContainer: styles.videoContainerDisable}>
+            <View style={[{display: 'flex', alignContent: 'center', justifyContent: 'center'}, componentStatus? styles.videoContainer: styles.videoContainerDisable]}>
                 {apiRequestData? 
                     <Video 
                     ref={video}
@@ -89,10 +77,9 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
                     source={{uri: apiRequestData}}
                     useNativeControls={true}
                     resizeMode="cover"
-                    onPlaybackStatusUpdate={setStatus}   
-                    onLoad={addHistoryHandler}/> 
+                    onLoad={() => {if(componentStatus) addHistoryHandler()}}/> 
                     
-                    : null}
+                    : <Text style={{alignItems: "center", justifyContent: 'center'}}>No se pudo cargar el video</Text>}
 
             </View>
          
@@ -105,8 +92,7 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
                 {componentStatus? null:
                 <TouchableOpacity onPress={() => {setComponentStatus(!componentStatus)}}>
                     <Ionicons name="expand" size={responsiveFontSize(3.5)} style={styles.icon} />
-                </TouchableOpacity>
-                }
+                </TouchableOpacity>}
             </View>
         </View>
     )
