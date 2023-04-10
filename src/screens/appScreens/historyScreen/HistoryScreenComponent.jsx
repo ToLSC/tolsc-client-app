@@ -1,75 +1,60 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
-import VideoList from '../../../components/videoListComponent/VideoListComponent';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeContext } from '../../../context/ThemeContext';
 import { AccountContext } from '../../../context/LoginContext';
-import { ref, get } from "firebase/database";
-import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
+import { responsiveScreenHeight, responsiveFontSize, responsiveScreenWidth } from 'react-native-responsive-dimensions';
+import { useIsFocused } from '@react-navigation/native';
+import VideoList from '../../../components/videoListComponent/VideoListComponent';
+import EmptyIcon from '../../../assets/icons/EmptyIcon';
 
 export default function HistoryScreenComponent() {
-
+    
+    //Variables init
     const insets = useSafeAreaInsets();
+    const isFocused = useIsFocused();
 
-    //Firebase path
-    const FB_USERS_PATH = "users/";
-    const FB_HISTORY_PATH = "history/";
-    const FB_FAVORITES_PATH = "favorites/";
-
+    //Variables - user context
+    const {favorites, history, getHistoryData, getFavoriteData} = useContext(AccountContext);  
+ 
     //Darktheme context
     const {darkThemeEnabled} = useContext(ThemeContext);
     const [isDarkThemeEnabled, changeTheme] = useState(darkThemeEnabled);
-    useEffect(() => { changeTheme(darkThemeEnabled) }, [darkThemeEnabled] )
+    useEffect(() => { changeTheme(darkThemeEnabled) }, [darkThemeEnabled] );
 
-    //User context
-    const {user, database} = useContext(AccountContext);   
-    const [historial, setHistorial] = useState(undefined);
-    const [favoritos, setFavoritos] = useState(undefined);
-
-    //Datos de firebase
-    useEffect(() => { 
-
-        get(ref(database, FB_USERS_PATH + user.user.uid + "/" + FB_FAVORITES_PATH)).then(data => {createArray(data, 1)}).catch(error => {console.log(error)}) //Read favorites
-        get(ref(database, FB_USERS_PATH + user.user.uid + "/" + FB_HISTORY_PATH)).then(data => {createArray(data, 2)}).catch(error => {console.log(error)}) //Read history
-
-    },[])
-
-
-    const createArray = (data, operation) => {
-        const array = [];
-
-        data.forEach((value) => {
-            array.push(value)
-        })
-
-        if(operation == 1){
-      
-            if(array.length !== 0)setFavoritos(array);
-            else setFavoritos(undefined);
-            
-        }else if(operation == 2){
-            
-            if(array.length !== 0) setHistorial(array);
-            else setHistorial(undefined)  
-
-        }
-    }
-
+    useEffect(() => {
+        getHistoryData();
+        getFavoriteData();
+    }, [isFocused])
 
     return (
-        <ScrollView vertical={true} nestedScrollEnabled={true} style={[{ flex: 1, paddingTop: insets.top }, isDarkThemeEnabled? {backgroundColor: 'black'} : {backgroundColor: '#F5F4FA'}]}>
+        <View style={[{ flex: 1, paddingTop: insets.top, position: 'relative'}, isDarkThemeEnabled? {backgroundColor: 'black'} : {backgroundColor: '#F5F4FA'}]}>
 
-            {favoritos? 
-                <View style={[{flex: 1}]}>
-                    <VideoList section={'Favoritos'} data={favoritos} isDarkThemeEnabled={isDarkThemeEnabled}/>
-                </View>: null}
+            {history || favorites?     
+                <ScrollView vertical={true} nestedScrollEnabled={true}>
+                    {favorites? 
+                        <View style={[{flex: 1}]}>
+                            <VideoList section={'Favoritos'} data={favorites} isDarkThemeEnabled={isDarkThemeEnabled} isFavorite={true}/>
+                        </View>: null}
 
-            {historial? 
-                <View style={[{flex: 1, paddingBottom: responsiveScreenHeight(7)}]}>
-                    <VideoList section={'Historial'} data={historial} isDarkThemeEnabled={isDarkThemeEnabled}/>
-                </View>: null}
-      
-        </ScrollView>
+                    {history? 
+                        <View style={[{flex: 1, paddingBottom: responsiveScreenHeight(7)}]}>
+                            <VideoList section={'Historial'} data={history} isDarkThemeEnabled={isDarkThemeEnabled} isFavorite={false}/>
+                        </View>: null}
+                </ScrollView>
+                
+                : 
+                
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>     
+                    <View style={{width: '100%', alignItems: 'center', justifyContent: 'space-around'}}>
+                        <EmptyIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)}/>
+                        <Text style={{textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: '600', paddingHorizontal: responsiveScreenWidth(10), color: '#777777', marginTop: responsiveScreenHeight(2)}}>Historial vacío, prueba buscando una palabra en el traductor</Text>
+                    </View>
+
+                  </View>
+            }
+
+        </View>
     );
 }
 

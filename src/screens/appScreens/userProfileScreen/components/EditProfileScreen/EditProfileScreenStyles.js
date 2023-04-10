@@ -1,19 +1,17 @@
 import { StyleSheet } from "react-native";
-import { responsiveScreenWidth, responsiveFontSize, responsiveScreenHeight } from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveScreenWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 
 export const Styles = StyleSheet.create({
     
-    keyboardAvoidingLayout:{
+    keyboardAvoivingLayout:{
         flex: 1, 
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     containerLayout:{
         flex: 1,
-        paddingHorizontal: responsiveScreenWidth(5),
-        height: responsiveScreenHeight(100)
-   
+        paddingHorizontal: responsiveScreenWidth(5)
     },
     
     title: {
@@ -23,9 +21,9 @@ export const Styles = StyleSheet.create({
     },
 
     iconLayout:{
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingBottom: responsiveScreenHeight (1)
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        marginVertical: responsiveScreenHeight(1)
     },
 
     inputContainer:{
@@ -94,7 +92,7 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         verticalAlign: "bottom",
-        marginTop: responsiveScreenHeight(1.5)
+        marginTop: responsiveScreenHeight(3.5)
     },
 
     createAccountText:{

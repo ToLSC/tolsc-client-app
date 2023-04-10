@@ -1,49 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Video } from "expo-av"
 import { styles } from "./VideoPlayerComponentStyles";
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { responsiveFontSize } from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveFontSize, responsiveScreenWidth  } from 'react-native-responsive-dimensions';
 import { getAnimation } from "../../services/TranslatorService";
 import { AccountContext } from "../../context/LoginContext";
-import { ref, push } from "firebase/database";
+import Ionicons from '@expo/vector-icons/Ionicons'
+import NotFoundIcon from "../../assets/icons/NotFoundIcon";
 
-
-export default function VideoPlayerComponent({stringTranslated, comStatus, isDarkThemeEnabled}){
-
-    //Firebase path
-    const FB_USERS_PATH = "users/";
-    const FB_HISTORY_PATH = "history/";
-    const FB_FAVORITES_PATH = "favorites/";
+export default function VideoPlayerComponent({stringTranslated, comStatus, isDarkThemeEnabled, mainComponent, focused}){
 
     //Variables
     const video = React.useRef(null);
-    const [status, setStatus] = React.useState({});
     const [componentStatus, setComponentStatus] = useState(comStatus);    
-    const {user, database} = useContext(AccountContext);
+    const {addHistoryHandler, addFavoriteHandler, deleteFavoriteHandler, getHistoryData, getFavoriteData, favorites} = useContext(AccountContext);
     const [apiRequestData, setApiRequestData] = useState(undefined);    
+    const [isLoading, setLoading] = useState(true);
+    const [favorite, setIsFavorite] = useState(false);
 
-    //Api video request
+    //Api video
     const apiVideoData = async (stringToTranslate) => {
-
         try {
             const result = await getAnimation(stringToTranslate.toLowerCase());
             setApiRequestData(result.data);
+            isFavoriteVideo();
           
         } catch (error) {
+            setLoading(false);
             console.log(error);
         }
     }
 
+    //Hook - Request video
     useEffect(() => {
         if(componentStatus == true && (stringTranslated != null && stringTranslated != '')){
+            setLoading(true);
             setApiRequestData(undefined);
             apiVideoData(stringTranslated);
         }
     }, [stringTranslated])
 
-
-    //Video Request hook
+    //Hook - Request video onChange Component Status
     useEffect(() => {
         if(componentStatus == true && (stringTranslated != null && stringTranslated != '')){
             setApiRequestData(undefined);
@@ -51,18 +48,53 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
         }
     }, [componentStatus])
 
-
-    const addFavoriteHandler = () => {
-        push(ref(database, FB_USERS_PATH + user.uid + "/" + FB_FAVORITES_PATH), {string: stringTranslated}).then().catch(error => {console.log(error)})
+    //Is video in favorite list - validation
+    const isFavoriteVideo = () => {
+        if(favorites){
+            favorites.some((value )=> {
+                if(value.child("string").val() === stringTranslated) {
+                    setIsFavorite(true);
+                    return value.child("string").val() === stringTranslated;
+                }
+            })
+        }
     }
 
-    const addHistoryHandler = () => {
-        push(ref(database, FB_USERS_PATH + user.uid + "/" + FB_HISTORY_PATH), {string: stringTranslated}).then(console.log("Guardado con exito")).catch(error => {console.log(error)})
-    }
+    //Refresh data on component focused
+    useEffect(() => {
+        getFavoriteData();
+        if(favorite) isFavoriteVideo();
+        else setIsFavorite(false);
+    }, [focused])
 
+    //Refresh data on favorites list change
+    useEffect(() => { 
+        if(favorite) setIsFavorite(false);
+        isFavoriteVideo();   
+    }, [favorite, stringTranslated, favorites])
     
-    return(
+    //Add video to history
+    const addHistory = () => { 
+        addHistoryHandler(stringTranslated);
+        getHistoryData();
+    }
+
+    //Add video to favorites list
+    const favoriteHandler = () => {  
+        if(!favorite) {
+            addFavoriteHandler(stringTranslated);
+            setIsFavorite(true);
+            getFavoriteData();
+        }
         
+        else {
+            setIsFavorite(false);
+            deleteFavoriteHandler(stringTranslated);
+            getFavoriteData();
+        }
+    }
+
+    return(
         <View style={[styles.container, isDarkThemeEnabled? {backgroundColor: '#181818'} : {backgroundColor: '#FEFEFE'}]}>
             <View style={styles.stringContainer}>
                 <Text style={styles.titleStyle}>String</Text>
@@ -70,28 +102,43 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
             </View>
       
             <View style={[{display: 'flex', alignContent: 'center', justifyContent: 'center'}, componentStatus? styles.videoContainer: styles.videoContainerDisable]}>
-                {apiRequestData? 
-                    <Video 
-                    ref={video}
-                    style={styles.video}
-                    source={{uri: apiRequestData}}
-                    useNativeControls={true}
-                    resizeMode="cover"
-                    onLoad={() => {if(componentStatus) addHistoryHandler()}}/> 
-                    
-                    : <Text style={{alignItems: "center", justifyContent: 'center'}}>No se pudo cargar el video</Text>}
+                  
+                {isLoading? 
+                    <View>
+                        {apiRequestData? 
+                            <Video 
+                                ref={video}
+                                style={styles.video}
+                                source={{uri: apiRequestData}}
+                                useNativeControls={true}
+                                resizeMode="cover"
+                                onLoad={() => {if(componentStatus) addHistory()}}          
+                            />   
+                            :  
+                            <ActivityIndicator size="large" color="#39B4C8"/>}
+                    </View>
 
-            </View>
-         
-            <View style={styles.bottomContainer}>
-                
-                <TouchableOpacity onPress={addFavoriteHandler}>
-                    <Ionicons name="star-outline" size={responsiveFontSize(3.5)} style={styles.icon} />
-                </TouchableOpacity> 
+                    : 
 
-                {componentStatus? null:
+                    <View style={{width: '100%', alignItems: 'center', justifyContent: 'space-around'}}>
+                        <NotFoundIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)}/>
+                        <Text style={styles.videoNotFoundText}>Video no encontrado, prueba buscando otra oración o palabra</Text>
+                    </View>
+                }      
+            </View>  
+             
+            <View style={styles.bottomContainer}>      
+                <View>
+                    {apiRequestData || !comStatus? 
+                        <TouchableOpacity onPress={favoriteHandler}>
+                            <Ionicons name="star-outline" size={responsiveFontSize(3.5)} style={styles.icon} color={favorite? '#FF6666' : '#39B4C8'}/>
+                        </TouchableOpacity> 
+                    : null}
+                </View>        
+
+                {mainComponent? null:
                 <TouchableOpacity onPress={() => {setComponentStatus(!componentStatus)}}>
-                    <Ionicons name="expand" size={responsiveFontSize(3.5)} style={styles.icon} />
+                    <Ionicons name="expand" size={responsiveFontSize(3.5)} style={styles.icon} color={'#39B4C8'}/>
                 </TouchableOpacity>}
             </View>
         </View>

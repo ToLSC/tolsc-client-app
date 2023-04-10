@@ -1,70 +1,62 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Switch, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Styles } from './UserProfileScreenComponentStyles';
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveScreenWidth  } from 'react-native-responsive-dimensions';
+import { ThemeContext } from '../../../../../context/ThemeContext';
+import { AccountContext } from '../../../../../context/LoginContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AntDesing from '@expo/vector-icons/AntDesign'
-import { ThemeContext } from '../../../context/ThemeContext';
+import AntDesing from '@expo/vector-icons/AntDesign';
+import ProfileIcon from '../../../../../assets/icons/ProfileIcon';
 
-import { AccountContext } from '../../../context/LoginContext';
+export default function UserProfileScreenComponent({navigation, route}) {
 
-export default function UserProfileScreenComponent({change, setUserStatus}) {
-
+    //Variables - init
     const insets = useSafeAreaInsets();
 
+    //Variables - Theme context
     const {darkThemeEnabled, setDarkThemeEnabled} = useContext(ThemeContext);
     const [isDarkThemeEnabled, changeTheme] = useState(darkThemeEnabled); 
-    const {user, setUser, auth} = useContext(AccountContext);
+    useEffect(() => { changeTheme(darkThemeEnabled) }, [darkThemeEnabled]);
 
-    useEffect(() => {changeTheme(darkThemeEnabled)}, [darkThemeEnabled]);
+    //Variables - User context
+    const {user, auth} = useContext(AccountContext);
 
+    //Switch between light and dark theme
     const changeThemeEmiter = () => {
-        setDarkThemeEnabled(!darkThemeEnabled);
-        change();
+        setDarkThemeEnabled(!isDarkThemeEnabled);
+        route.params.change(!isDarkThemeEnabled);
     }
 
+    //Logout
     const logoutHandler = () => {
-        setUserStatus(false);
+        route.params.setUserStatus(false);
+        route.params.change(false);
+        auth.signOut();
     }
- 
+
     return (  
-        
         <View style={[isDarkThemeEnabled? {backgroundColor: 'black'} : {backgroundColor: '#F5F4FA'}, {paddingTop: insets.top, flex: 1}]} >
-            <ScrollView style={{paddingHorizontal: responsiveWidth(4), paddingTop: responsiveHeight(2)}}>
-                 
-                <Text style={[Styles.title, isDarkThemeEnabled? {color: 'white'} : {color: 'black'}]}>Settings</Text>
-                
+            <ScrollView style={{paddingHorizontal: responsiveScreenWidth(4), paddingTop: responsiveScreenHeight(2)}}>  
+
+                <Text style={[Styles.title, isDarkThemeEnabled? {color: 'white'} : {color: 'black'}]}>Settings</Text>   
+                   
                 <View style={[Styles.categoryLayout, isDarkThemeEnabled? {backgroundColor: '#181818'} : {backgroundColor: 'white'}]}>
                     <Text style={[Styles.categoryLabel, isDarkThemeEnabled? {color: '#3E3E3E'} : {color: '#898989'}]}>Profile</Text>
                 </View>
 
                 <View style={Styles.profileContainer}>
-                    <View style={Styles.profileImageContainer}>
-                        {user.user.photoURL? <Image source={{uri: user.user.photoURL}} style={Styles.imageProfile} /> : <Image source={{uri:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}} style={Styles.imageProfile} />}
+                    <View>
+                        <ProfileIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)}/>
                     </View>
                     <View style={Styles.profileInfoContainer}>
-                        <Text style={[Styles.infoProfile, isDarkThemeEnabled? {color:'white'} : {color:'black'}]}>{user.user.displayName}</Text>
-                        <Text style={Styles.infoSecProfile}>{user._tokenResponse.email}</Text>
-                        <TouchableOpacity>
-                            <Text style={{color: '#39B4C8', paddingTop: responsiveHeight(1.5)}}>Edit Profile</Text>
+                        <Text style={[Styles.infoProfile, isDarkThemeEnabled? {color:'white'} : {color:'black'}]}>{user.displayName}</Text>
+                        <Text style={Styles.infoSecProfile}>{user.email}</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+                            <Text style={Styles.editProfileButtonText}>Edit Profile</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-
-                <View style={[Styles.categoryLayout, isDarkThemeEnabled? {backgroundColor: '#181818'} : {backgroundColor: 'white'}]}>
-                    <Text style={[Styles.categoryLabel, isDarkThemeEnabled? {color: '#3E3E3E'} : {color: '#898989'}]}>Content</Text>
-                </View>
-
-                <TouchableOpacity>
-                    <View style={Styles.buttonContainer}>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Ionicons name="heart-outline" size={responsiveWidth(8)} color="#686868" />
-                            <Text style={[Styles.buttonText, isDarkThemeEnabled? {color: '#DBDBDB'}: {color: '#505050'}]}>Favorites</Text>
-                        </View>
-                        <Ionicons name="chevron-forward" size={responsiveWidth(8)} color="#686868" />
-                    </View> 
-                </TouchableOpacity>
 
                 <View style={[Styles.categoryLayout, isDarkThemeEnabled? {backgroundColor: '#181818'} : {backgroundColor: 'white'}]}>
                     <Text style={[Styles.categoryLabel, isDarkThemeEnabled? {color: '#3E3E3E'} : {color: '#898989'}]}>Preferences</Text>
@@ -80,7 +72,7 @@ export default function UserProfileScreenComponent({change, setUserStatus}) {
                             value={isDarkThemeEnabled}
                             onValueChange={changeThemeEmiter}
                             thumbColor={'#BFD6DA'}
-                            trackColor={{false: "#686868" , true: '#39B4C8'}}         
+                            trackColor={{false: "#686868" , true: '#39B4C8'}}
                         />
                     </View> 
                 </TouchableOpacity>
@@ -91,7 +83,7 @@ export default function UserProfileScreenComponent({change, setUserStatus}) {
                         <AntDesing name="logout" size={24} color="#686868" />
                             <Text style={[Styles.buttonText, isDarkThemeEnabled? {color: '#DBDBDB'} : {color: '#505050'}]}>Log out</Text>
                         </View>
-                        <Ionicons name="chevron-forward" size={responsiveWidth(8)} color="#686868" />
+                        <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" />
                     </View> 
                 </TouchableOpacity>
             </ScrollView>

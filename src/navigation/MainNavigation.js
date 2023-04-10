@@ -1,25 +1,29 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import LoginNavigation from './LoginNavigation';
-import AppNavigation from './AppNavigation';
 import { ThemeProvider } from '../context/ThemeContext';
 import { AccountContext, AccountProvider } from '../context/LoginContext';
+import LoginNavigation from './LoginNavigation';
+import AppNavigation from './AppNavigation';
 
 export default function MainNavigation(){
 
+    //Variables - state
     const [estado, setEstado] = useState(false);
-    const {user, setUser, auth} = useContext(AccountContext); 
+    const {user, setUser, setLoginStatus} = useContext(AccountContext); 
 
-    if(user){
-        setEstado(true);
-    }
+    //Hook - change login status onChange user information
+    useEffect(() => { if(user && !estado) setEstado(true) }, [user])
 
+    //Change user data - Login
     const getUserData = (data) => {
         if(data){
-            setEstado(true);
+            setUser(data);
+            setLoginStatus(true);
+            setEstado(false);
         }
     } 
 
+    //Change user status - Logout
     const getUserStatus = (data) =>{
         if(!data){
             setUser(null);

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveScreenWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 
 export const styles = StyleSheet.create({
 
@@ -14,19 +14,18 @@ export const styles = StyleSheet.create({
         flex: 1,
         color: 'white',
         fontSize: responsiveFontSize(4.3),
-        paddingHorizontal: responsiveWidth(5),
-        paddingTop: responsiveHeight(4),
+        paddingHorizontal: responsiveScreenWidth(5),
+        paddingTop: responsiveScreenHeight(4),
         fontWeight: "bold",
         borderTopEndRadius: 20,
-        borderTopStartRadius: 20
+        borderTopStartRadius: 20,
     },
 
     inputContainerActivated:{
         flex: 1,
         color: 'white',
         fontSize: responsiveFontSize(4.5),
-        paddingHorizontal: responsiveWidth(5),
-        paddingTop: responsiveHeight(1),
+        paddingHorizontal: responsiveScreenWidth(5),
         fontWeight: "bold",
         borderTopEndRadius: 20,
         borderTopStartRadius: 20,
@@ -35,10 +34,10 @@ export const styles = StyleSheet.create({
     micLayout:{
         position: 'absolute',
         bottom: 10,
-        width: responsiveWidth(20),
-        height: responsiveWidth(20),
-        maxWidth: responsiveWidth(18),
-        maxHeight: responsiveWidth(18),
+        width: responsiveScreenWidth(20),
+        height: responsiveScreenWidth(20),
+        maxWidth: responsiveScreenWidth(18),
+        maxHeight: responsiveScreenWidth(18),
         alignSelf: 'center',
         justifyContent: 'center'
     },
@@ -48,14 +47,29 @@ export const styles = StyleSheet.create({
         color: '#1E1E1E',
         fontSize: 30,
         alignSelf: 'center',
+    },   
+    
+    inputSubmit:{
+        flex: 1,
+        alignItems: 'flex-end'
+    },
+
+    togglesContainer:{
+        display: 'flex', 
+        flexDirection: 'row', 
+        marginVertical: responsiveScreenHeight(2),
+        marginHorizontal: responsiveScreenWidth(5)
     },
 
     closeInput:{
-        alignItems: 'flex-end',
-        height: 'auto',
-        width: '100%',
-        marginTop: 20,
-        paddingHorizontal: 25,
+        flex: 1,
+        alignItems: 'flex-start'
+    },
+
+    toggleText:{
+        color: '#A5A5A5', 
+        fontWeight: 'bold', 
+        fontSize: responsiveFontSize(2.3)
     },
 
     micContainerPlay:{
@@ -74,5 +88,5 @@ export const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
-    },
+    }
 })

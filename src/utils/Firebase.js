@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 
+//Firebase init config
 export const firebaseConfig = {
   apiKey: "AIzaSyBIQ3qkIZnAiiK2JH475HHdHNE-jLPB8Zs",
   authDomain: "proyectofinalreactnat.firebaseapp.com",

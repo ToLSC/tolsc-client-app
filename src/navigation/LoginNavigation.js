@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
 import LoginScreenComponent from '../screens/loginScreens/loginScreen/LoginScreenComponent';
 import RegisterScreenComponent from '../screens/loginScreens/registerScreen/RegisterScreenComponent';
 import ForgotPasswordScreenComponent from '../screens/loginScreens/forgotPasswordScreen/ForgotPasswordScreenComponent';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ThemeProvider } from '../context/ThemeContext';
 
 const Stack = createNativeStackNavigator();

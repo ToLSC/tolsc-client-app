@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveScreenWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 
 export const styles = StyleSheet.create({
 
@@ -8,11 +8,11 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         marginBottom: 5,
-        paddingBottom: responsiveHeight(1),
+        paddingBottom: responsiveScreenHeight(1),
         borderRadius: 15,
-        paddingHorizontal: responsiveWidth(4),
-        paddingTop: responsiveHeight(2),
-        marginHorizontal: responsiveWidth(0.5)
+        paddingHorizontal: responsiveScreenWidth(4),
+        paddingTop: responsiveScreenHeight(2),
+        marginHorizontal: responsiveScreenWidth(0.5)
     }, 
 
     stringContainer:{
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
         marginBottom: 0,
         overflow: 'hidden',
         verticalAlign: "top",
-        marginHorizontal: responsiveWidth(3),     
+        marginHorizontal: responsiveScreenWidth(3),     
     },
 
     stringStyle:{
@@ -52,9 +52,18 @@ export const styles = StyleSheet.create({
 
     video:{
         flex: 1,
-        width: responsiveWidth(80),
+        width: responsiveScreenWidth(80),
         borderRadius: 10,
-        minHeight: responsiveHeight(35)
+        minHeight: responsiveScreenHeight(35)
+    },
+
+    videoNotFoundText:{
+        textAlign: 'center', 
+        fontSize: responsiveFontSize(2), 
+        fontWeight: '600', 
+        paddingHorizontal: responsiveScreenWidth(10), 
+        color: '#777777', 
+        marginTop: responsiveScreenHeight(2)
     },
 
     bottomContainer:{
@@ -65,7 +74,6 @@ export const styles = StyleSheet.create({
     }, 
 
     icon: {
-        color: '#39B4C8',
         marginRight: 20,
         marginLeft: 10,
         padding: 4

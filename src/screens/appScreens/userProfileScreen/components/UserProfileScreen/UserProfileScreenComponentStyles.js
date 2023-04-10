@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { responsiveFontSize,  responsiveHeight, responsiveWidth} from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 
 export const Styles = StyleSheet.create({
     title:{
@@ -22,7 +22,7 @@ export const Styles = StyleSheet.create({
     buttonContainer:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingVertical: responsiveHeight(1.5),
+        paddingVertical: responsiveScreenHeight(1.5),
         alignItems: 'center'
     },
 
@@ -31,11 +31,18 @@ export const Styles = StyleSheet.create({
         paddingLeft: 5
     },
 
+    editProfileButtonText: {
+        color: '#39B4C8', 
+        paddingTop: responsiveScreenHeight(1.5), 
+        fontSize: responsiveFontSize(2), 
+        fontWeight: '600'
+    },
+
     profileContainer:{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: responsiveHeight(2)
+        paddingVertical: responsiveScreenHeight(2)
     },
 
     imageProfile:{
@@ -54,10 +61,11 @@ export const Styles = StyleSheet.create({
     infoProfile:{
         color: 'white',
         fontWeight: '600',
-        fontSize: responsiveFontSize(2.4)
+        fontSize: responsiveFontSize(3.2)
     },
 
     infoSecProfile:{
-        color: '#808080'
+        color: '#808080',
+        fontSize: responsiveFontSize(2.5)
     }
 })
