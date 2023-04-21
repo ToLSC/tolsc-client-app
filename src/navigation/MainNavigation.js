@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import { ThemeProvider } from '../context/ThemeContext';
-import { AccountContext, AccountProvider } from '../context/LoginContext';
+import { AccountContext, AccountProvider } from '../context/AccountContext';
 import LoginNavigation from './LoginNavigation';
 import AppNavigation from './AppNavigation';
 

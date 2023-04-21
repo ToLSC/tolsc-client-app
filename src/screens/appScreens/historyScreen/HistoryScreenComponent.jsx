@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeContext } from '../../../context/ThemeContext';
-import { AccountContext } from '../../../context/LoginContext';
+import { AccountContext } from '../../../context/AccountContext';
 import { responsiveScreenHeight, responsiveFontSize, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { useIsFocused } from '@react-navigation/native';
 import VideoList from '../../../components/videoListComponent/VideoListComponent';

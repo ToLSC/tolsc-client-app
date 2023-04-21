@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Styles } from './TranslatorScreenComponentStyles';
 import { ThemeContext } from '../../../context/ThemeContext';
-import { AccountProvider } from '../../../context/LoginContext';
+import { AccountProvider } from '../../../context/AccountContext';
 import { useIsFocused } from '@react-navigation/native';
 import InputComponent from '../../../components/inputComponent/InputComponent';
 import VideoPlayerComponent from '../../../components/videoPlayerComponent/VideoPlayerComponent';

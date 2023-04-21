@@ -4,7 +4,7 @@ import { Video } from "expo-av"
 import { styles } from "./VideoPlayerComponentStyles";
 import { responsiveScreenHeight, responsiveFontSize, responsiveScreenWidth  } from 'react-native-responsive-dimensions';
 import { getAnimation } from "../../services/TranslatorService";
-import { AccountContext } from "../../context/LoginContext";
+import { AccountContext } from "../../context/AccountContext";
 import Ionicons from '@expo/vector-icons/Ionicons'
 import NotFoundIcon from "../../assets/icons/NotFoundIcon";
 
