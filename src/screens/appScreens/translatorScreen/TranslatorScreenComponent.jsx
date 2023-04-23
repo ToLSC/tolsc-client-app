@@ -8,7 +8,6 @@ import { useIsFocused } from '@react-navigation/native';
 import InputComponent from '../../../components/inputComponent/InputComponent';
 import VideoPlayerComponent from '../../../components/videoPlayerComponent/VideoPlayerComponent';
 
-
 export default function TranslatorScreenComponent() {
     //Variables
     const insets = useSafeAreaInsets();
@@ -21,12 +20,14 @@ export default function TranslatorScreenComponent() {
     const [requestData, setRequestData] = useState();
 
     //Varibales- Theme context 
-    const {darkThemeEnabled} = useContext(ThemeContext);
+    const { darkThemeEnabled } = useContext(ThemeContext);
     const [isDarkThemeEnabled, changeTheme] = useState(darkThemeEnabled);
     useEffect(() => { changeTheme(darkThemeEnabled) }, [darkThemeEnabled])
     
     //Hook Video
     useEffect(() => { if(inputData != null && inputData != '') setVideoStatus(true) }, [inputData])
+
+    
 
     //Change input status
     const changeInputStatus = (status) => { 

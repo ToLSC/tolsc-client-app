@@ -10,7 +10,7 @@ export default function MainNavigation(){
     //Variables - state
     const [estado, setEstado] = useState(false);
     const {user, setUser, setLoginStatus} = useContext(AccountContext); 
-
+    
     //Hook - change login status onChange user information
     useEffect(() => { if(user && !estado) setEstado(true) }, [user])
 

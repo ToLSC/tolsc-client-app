@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAuth } from 'firebase/auth'
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from "../utils/Firebase";
@@ -24,6 +24,7 @@ export const AccountProvider = ({ children }) => {
     const [loginStatus, setLoginStatus] = useState(false)
     const [history, setHistorial] = useState(undefined);
     const [favorites, setFavoritos] = useState(undefined);
+    const [themePropery, setThemeProperty] = useState(false);
 
     //Hook update info onChange user
     useEffect(() => { auth.onAuthStateChanged(user => { if (user) setUser(user) }) }, [loginStatus])
@@ -139,7 +140,7 @@ export const AccountProvider = ({ children }) => {
     }
 
     return (
-        <AccountContext.Provider value={{ user, setUser, auth, database, setLoginStatus, history, favorites, addHistoryHandler, addFavoriteHandler, deleteFavoriteHandler, getHistoryData, getFavoriteData }}>
+        <AccountContext.Provider value={{ user, themePropery, setUser, auth, database, setLoginStatus, history, favorites, addHistoryHandler, addFavoriteHandler, deleteFavoriteHandler, getHistoryData, getFavoriteData }}>
             {children}
         </AccountContext.Provider>
     )

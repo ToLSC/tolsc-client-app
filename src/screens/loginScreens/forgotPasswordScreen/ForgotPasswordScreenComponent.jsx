@@ -6,9 +6,9 @@ import { responsiveScreenHeight, responsiveScreenWidth, responsiveFontSize } fro
 import { ThemeContext } from "../../../context/ThemeContext";
 import { AccountContext } from '../../../context/AccountContext';
 import { sendPasswordResetEmail } from 'firebase/auth'
-// import Ionicons from '@expo/vector-icons/Ionicons';
 import LockIcon from "../../../assets/icons/LockIcon";
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import BackIcon from '../../../assets/icons/Back';
 
 export default function ForgotPasswordScreenComponent({ navigation }) {
 
@@ -28,48 +28,50 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView style={Styles.keyboardAvoidingLayout} behavior="height" enabled keyboardVerticalOffset={0}>
-            <ScrollView>
-                <View style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
+        <View style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
+            <KeyboardAvoidingView style={Styles.keyboardAvoidingLayout} behavior="height" enabled keyboardVerticalOffset={0}>
+                <ScrollView>
+                    <View >
+                        <View style={Styles.buttonBackLayout}>
+                            <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
+                                <BackIcon width={25} height={40}/>
+                            </TouchableOpacity>
+                        </View>
 
-                    <View style={Styles.buttonBackLayout}>
-                        <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                            {/* <Ionicons name="arrow-back" size={35} style={{color: '#ccc'}}/> */}
+                        <View>
+                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Forgot Password</Text>
+                        </View>
+
+                        <View style={Styles.iconLayout}>
+                            <LockIcon width={responsiveScreenWidth(28)} height={responsiveScreenHeight(14)} />
+                        </View>
+
+                        <View style={{ marginVertical: 25 }}>
+                            <Text style={[Styles.createAccountText, { fontSize: responsiveFontSize(2.5), textAlign: 'center' }, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Enter the email associeate with your account and we´ll send an email with instructions to reset your password</Text>
+                        </View>
+
+                        <View>
+                            <View style={Styles.inputContainer}>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
+                                <TextInput
+                                    style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
+                                    placeholder="example@company.com"
+                                    placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
+                                    value={email}
+                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    onChangeText={text => setEmail(text)}
+                                />
+                            </View>
+                        </View>
+
+                        <TouchableOpacity onPress={resetPasswordHandler}>
+                            <View style={[Styles.buttonStyle, { marginVertical: 30 }]}>
+                                <Text style={Styles.buttonLoginText}>Send Email</Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
-
-                    <View>
-                        <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Forgot Password</Text>
-                    </View>
-
-                    <View style={Styles.iconLayout}>
-                        <LockIcon width={responsiveScreenWidth(28)} height={responsiveScreenHeight(14)} />
-                    </View>
-
-                    <View style={{ marginVertical: 25 }}>
-                        <Text style={[Styles.createAccountText, { fontSize: responsiveFontSize(2.5), textAlign: 'center' }, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Enter the email associeate with your account and we´ll send an email with instructions to reset your password</Text>
-                    </View>
-
-                    <View>
-                        <View style={Styles.inputContainer}>
-                            <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
-                            <TextInput
-                                style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                placeholder="example@company.com"
-                                placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                value={email}
-                                onChangeText={text => setEmail(text)}
-                            />
-                        </View>
-                    </View>
-
-                    <TouchableOpacity onPress={resetPasswordHandler}>
-                        <View style={[Styles.buttonStyle, { marginVertical: 30 }]}>
-                            <Text style={Styles.buttonLoginText}>Send Email</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View> 
     )
 }

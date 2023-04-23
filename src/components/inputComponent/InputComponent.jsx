@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, Keyboard, Text } from "react-native";
 import { styles } from '../inputComponent/InputComponentStyles';
 import { Audio } from "expo-av";
-import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import { responsiveFontSize } from "react-native-responsive-dimensions";
 import FontAwesone from '@expo/vector-icons/FontAwesome';
 
 export default function InputComponent( {videoStatus, changeInputStatus, inputData, isDarkThemeEnabled} ){
@@ -65,7 +65,7 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
                 textAlignVertical="top"
                 multiline
                 placeholderTextColor={isDarkThemeEnabled? "#3E3E3E" : '#8B8B8B'}
-                keyboardAppearance = "default"
+                keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
                 onChangeText={text => setInputText(text)}
                 onEndEditing={endEditing}
                 returnKeyType= "send"

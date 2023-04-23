@@ -6,9 +6,9 @@ import { AccountContext } from '../../../../../context/AccountContext';
 import { Styles } from './EditProfileScreenStyles';
 import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { updateProfile, updateEmail, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth'
-// import Ionicons from '@expo/vector-icons/Ionicons';
 import EditIcon from '../../../../../assets/icons/EditIcon';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import BackIcon from '../../../../../assets/icons/Back';
 
 export default function EditProfileScreenComponent({ navigation }) {
 
@@ -49,65 +49,70 @@ export default function EditProfileScreenComponent({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView style={Styles.keyboardAvoivingLayout} behavior="height" enabled keyboardVerticalOffset={0}>
-            <ScrollView>
-                <View style={[{ paddingTop: insets.top, paddingBottom: insets.bottom }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
-                    <View style={Styles.buttonBackLayout} >
-                        <TouchableOpacity onPress={() => navigation.navigate('UserProfile')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                            {/* <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} /> */}
+        <View style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
+            <KeyboardAvoidingView style={Styles.keyboardAvoivingLayout} behavior="height" enabled keyboardVerticalOffset={0}>
+                <ScrollView>
+                    <View >
+                        <View style={Styles.buttonBackLayout} >
+                            <TouchableOpacity onPress={() => navigation.navigate('UserProfile')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
+                                <BackIcon width={25} height={40}/>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Update Account</Text>
+                        </View>
+
+                        <View>
+                            <View style={Styles.iconLayout}>
+                                <EditIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)} />
+                            </View>
+
+                            <View style={Styles.inputContainer}>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
+                                <TextInput
+                                    style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
+                                    placeholder="Enter your full name"
+                                    placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
+                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    value={name}
+                                    onChangeText={text => setName(text)}
+                                    onKeyPress={() => Keyboard.dismiss()}
+                                />
+                            </View>
+
+                            <View style={Styles.inputContainer}>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
+                                <TextInput
+                                    style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
+                                    placeholder="example@company.com"
+                                    placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
+                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    value={email}
+                                    onChangeText={text => setEmail(text)}
+                                />
+                            </View>
+
+                            <View style={Styles.inputContainer}>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Put your password to save changes*</Text>
+                                <TextInput
+                                    style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
+                                    placeholder="Your password"
+                                    placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
+                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    value={password}
+                                    onChangeText={text => setPassword(text)}
+                                    secureTextEntry={true}
+                                />
+                            </View>
+                        </View>
+
+                        <TouchableOpacity onPress={editUserHandler} style={[Styles.buttonStyle, { marginVertical: 45 }]}>
+                            <Text style={Styles.buttonLoginText}>Update User</Text>
                         </TouchableOpacity>
                     </View>
-
-                    <View>
-                        <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Update Account</Text>
-                    </View>
-
-                    <View>
-                        <View style={Styles.iconLayout}>
-                            <EditIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)} />
-                        </View>
-
-                        <View style={Styles.inputContainer}>
-                            <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
-                            <TextInput
-                                style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                placeholder="Enter your full name"
-                                placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                value={name}
-                                onChangeText={text => setName(text)}
-                                onKeyPress={() => Keyboard.dismiss()}
-                            />
-                        </View>
-
-                        <View style={Styles.inputContainer}>
-                            <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
-                            <TextInput
-                                style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                placeholder="example@company.com"
-                                placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                value={email}
-                                onChangeText={text => setEmail(text)}
-                            />
-                        </View>
-
-                        <View style={Styles.inputContainer}>
-                            <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Put your password to save changes*</Text>
-                            <TextInput
-                                style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                placeholder="Your password"
-                                placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                value={password}
-                                onChangeText={text => setPassword(text)}
-                                secureTextEntry={true}
-                            />
-                        </View>
-                    </View>
-
-                    <TouchableOpacity onPress={editUserHandler} style={[Styles.buttonStyle, { marginVertical: 45 }]}>
-                        <Text style={Styles.buttonLoginText}>Update User</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View>
     );
 }

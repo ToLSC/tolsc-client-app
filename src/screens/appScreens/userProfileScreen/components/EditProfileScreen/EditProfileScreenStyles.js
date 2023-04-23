@@ -4,14 +4,14 @@ import { responsiveScreenHeight, responsiveScreenWidth, responsiveFontSize } fro
 export const Styles = StyleSheet.create({
     
     keyboardAvoivingLayout:{
-        flex: 1, 
-        flexDirection: 'column',
-        justifyContent: 'center',
+        flex: 1,
     },
 
     containerLayout:{
-        flex: 1,
-        paddingHorizontal: responsiveScreenWidth(5)
+        height: '150%',
+        backgroundColor: 'red',
+        paddingHorizontal: responsiveScreenWidth(5),
+        
     },
     
     title: {
