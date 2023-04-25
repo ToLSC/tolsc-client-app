@@ -33,7 +33,8 @@ export default function EditProfileScreenComponent({ navigation }) {
         if (password !== '') {
             if (email !== '' && email !== '') {
                 const credentials = EmailAuthProvider.credential(auth.currentUser.email, password);
-                reauthenticateWithCredential(auth.currentUser, credentials).then(
+
+                reauthenticateWithCredential(auth.currentUser, credentials).then(()=>{
                     updateProfile(auth.currentUser, { displayName: name }).then(() => {
                         updateEmail(auth.currentUser, email).then(() => {
                             navigation.navigate('UserProfile');
@@ -42,8 +43,26 @@ export default function EditProfileScreenComponent({ navigation }) {
                         console.log(error);
                     })
 
-                ).catch(e => console.log(e))
-
+                }).catch((error) => {
+                    switch(error.code) {          
+                        case 'auth/invalid-email':
+                            alert('Correo invalido, porfavor vuelve a intentarlo')
+                            setEmail('')
+                            setPassword('')
+                            break;
+                        
+                        case 'auth/user-not-found':
+                            alert('Usuario no encontrado, porfavor vuelve a intentarlo')
+                            setEmail('')
+                            setPassword('')
+                            break;
+                        
+                        case 'auth/wrong-password':
+                            alert('Contraseña incorrecta, porfavor vuelve a intentarlo')
+                            setEmail('')
+                            setPassword('')
+                            break;
+                }})
             } else alert("Debe rellenar todos los campos")
         } else alert("Debe ingresar tu contraseña")
     }
@@ -77,7 +96,6 @@ export default function EditProfileScreenComponent({ navigation }) {
                                     keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
                                     value={name}
                                     onChangeText={text => setName(text)}
-                                    onKeyPress={() => Keyboard.dismiss()}
                                 />
                             </View>
 

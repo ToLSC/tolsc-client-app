@@ -4,6 +4,7 @@ import { styles } from '../inputComponent/InputComponentStyles';
 import { Audio } from "expo-av";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
 import FontAwesone from '@expo/vector-icons/FontAwesome';
+import { speechTotext } from "../../services/TranslatorService";
 
 export default function InputComponent( {videoStatus, changeInputStatus, inputData, isDarkThemeEnabled} ){
 
@@ -124,7 +125,7 @@ function VoiceInput(){
       
             if (permission.status === "granted") {
               await Audio.setAudioModeAsync({allowsRecordingIOS: true,playsInSilentModeIOS: true}); 
-              const { recording } = await Audio.Recording.createAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+              const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
               setRecording(recording);
 
             } else 
@@ -141,14 +142,15 @@ function VoiceInput(){
 
         await recording.stopAndUnloadAsync();
         const uri = recording.getURI();
-        console.log('GrabaciÃ³n guardada en: ', uri)
-
         let updatedRecordings = [...recordings];
         const { sound, status } = await recording.createNewLoadedSoundAsync();
-
         updatedRecordings.push({sound: sound,duration: getDurationFormatted(status.durationMillis),file: recording.getURI()});
         setRecordings(updatedRecordings);
-        console.log(recordings)
+
+        speechTotext(uri).then(response => { 
+            console.log(response) 
+            
+        }).catch(error => { console.error(error)}).finally(() => {console.log("AAAAAAAAAAAAAA")});;
     }
 
     //GetDuration
