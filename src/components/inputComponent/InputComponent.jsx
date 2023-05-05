@@ -203,7 +203,7 @@ function VoiceInput({setLoading, sentText, setMicActivated}){
     return(
         <View style={recording? styles.micContainerStop : styles.micContainerPlay}>
             <TouchableOpacity onPress={recording? stopRecording : startRecording} style={{paddingHorizontal: 15, paddingVertical: 10}}> 
-                {recording? <FontAwesone name="stop" size={responsiveFontSize(3.5)} color="#181818"/> : <FontAwesone name="microphone" size={responsiveFontSize(4.5)} color="#181818"/>}    
+                {recording? <FontAwesome name="stop" size={responsiveFontSize(3.5)} color="#181818"/> : <FontAwesome name="microphone" size={responsiveFontSize(4.5)} color="#181818"/>}    
             </TouchableOpacity>
         </View>
     )

@@ -6,6 +6,7 @@ import { AccountContext } from '../src/context/AccountContext';
 import renderer from 'react-test-renderer';
 import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 jest.mock('react-native-safe-area-context', () => {
   const inset = { top: 0, right: 0, bottom: 0, left: 0 }
@@ -19,6 +20,14 @@ jest.mock('react-native-safe-area-context', () => {
 });
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+
+jest.mock('firebase/auth', () => {
+  return {
+    signInWithEmailAndPassword: jest.fn().mockResolvedValue('User logged succesfully'),
+  };
+});
+
+const mockNavigation = { navigate: jest.fn() };
 
 const mockTheme = mockThemeContext();
 
@@ -63,5 +72,41 @@ describe('LoginScreenComponent', () => {
     fireEvent.changeText(passwordInput, 'testpassword');
     expect(emailInput.props.value).toBe('test@example.com');
     expect(passwordInput.props.value).toBe('testpassword');
+  });
+
+  it('should call signInWithEmailAndPassword when login button is pressed', async () => {
+    const { getByTestId } = render(
+      <ThemeContext.Provider value={mockTheme}>
+        <AccountContext.Provider value={mockAuth}>
+          <LoginScreenComponent />
+        </AccountContext.Provider>
+      </ThemeContext.Provider>
+    );
+
+    const emailInput = getByTestId('emailInput');
+    const passwordInput = getByTestId('passwordInput');
+    const loginButton = getByTestId('loginButton');
+
+    fireEvent.changeText(emailInput, 'johndoe@example.com');
+    fireEvent.changeText(passwordInput, 'password');
+    fireEvent.press(loginButton);
+
+    expect(signInWithEmailAndPassword).toHaveBeenCalledWith(expect.any(Object), 'johndoe@example.com', 'password');
+  });
+
+  it('should navigate to register screen after when create new account button is pressed', async () => {
+    const { getByTestId } = render(
+      <ThemeContext.Provider value={mockTheme}>
+        <AccountContext.Provider value={mockAuth}>
+          <LoginScreenComponent navigation={mockNavigation} />
+        </AccountContext.Provider>
+      </ThemeContext.Provider>
+    );
+    
+    const toRegisterButton = getByTestId('toRegisterButton');
+
+    fireEvent.press(toRegisterButton);
+
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('registerScreen');
   });
 });

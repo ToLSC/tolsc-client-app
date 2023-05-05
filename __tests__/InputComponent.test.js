@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import UserProfileScreenComponent from '../src/screens/appScreens/userProfileScreen/components/UserProfileScreen/UserProfileScreenComponent';
+import InputComponent from '../src/components/inputComponent/InputComponent';
 import { ThemeContext } from '../src/context/ThemeContext';
 import { AccountContext } from '../src/context/AccountContext';
 import renderer from 'react-test-renderer';
@@ -20,26 +19,32 @@ jest.mock('react-native-safe-area-context', () => {
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
-jest.mock('@expo/vector-icons/Ionicons', () => {
-    const { View } = require('react-native');
-    return (props) => <View testID="Ionicons" {...props} />;
+jest.mock('@expo/vector-icons/FontAwesome', () => {
+    return '';
 });
 
-jest.mock('@expo/vector-icons/AntDesign', () => {
-    const { View } = require('react-native');
-    return (props) => <View testID="AntDesign" {...props} />;
-});
+jest.mock('expo-av', () => ({
+    Audio: {
+        Sound: jest.fn(() => ({
+            loadAsync: jest.fn(),
+            unloadAsync: jest.fn(),
+            playAsync: jest.fn(),
+            pauseAsync: jest.fn(),
+            stopAsync: jest.fn(),
+        })),
+    },
+}));
 
 const mockTheme = mockThemeContext();
 
 const mockAuth = mockAuthContext();
 
-describe('UserProfileScreenComponent', () => {
+describe('InputComponent', () => {
     test('renders correctly', () => {
         const tree = renderer.create(
             <ThemeContext.Provider value={mockTheme}>
                 <AccountContext.Provider value={mockAuth}>
-                    <UserProfileScreenComponent />
+                    <InputComponent />
                 </AccountContext.Provider>
             </ThemeContext.Provider>).toJSON();
         expect(tree).toMatchSnapshot();
