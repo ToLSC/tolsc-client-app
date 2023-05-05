@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, TouchableOpacity, Keyboard, Text } from "react-native";
+import { View, TextInput, TouchableOpacity, Keyboard, Text, ActivityIndicator } from "react-native";
 import { styles } from '../inputComponent/InputComponentStyles';
 import { Audio } from "expo-av";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
+import { responsiveFontSize} from "react-native-responsive-dimensions";
 import FontAwesone from '@expo/vector-icons/FontAwesome';
 import { speechTotext } from "../../services/TranslatorService";
 
@@ -11,6 +11,8 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
     //Variables - state
     const [inputActivated, setInputActivated] = useState(false); 
     const [inputText, setInputText] = useState(''); 
+    const [isLoading, setLoading] = useState(false);
+    const [isMicActivated, setMicActivated] = useState(false);
     
     //OnFocus keyboard activated
     const keyboardActivated = () => {
@@ -49,38 +51,70 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
 
     //OnEnterKeyHandler
     const enterHandler = (e) => {
-        if(e.nativeEvent.key == "Enter")
-            submitInputText();
+        if(e.nativeEvent.key == "Enter") submitInputText();
     }
+
+
+    //SpeechToTextVariables and Functions
+    const setIsLoading = (data) => { setLoading(data) }
+    const setIsMicActivated = (data) => { setMicActivated(data) }
+    useEffect(() => { if(isMicActivated) setInputText('') }, [isMicActivated])
+
+    const getTextFromMic = async (data) => {
+        const textData = await data;
+        if(textData){
+            const stringData = textData.toString();
+            const newStringData = stringData.substring(1);
+            setInputText(newStringData);
+            setLoading(false);
+        }   
+        else{
+            alert("Error en la solicitud, por favor intente mas tarde")
+            setInputText('');
+            setLoading(false);
+        }  
+    } 
 
     return(
         <View style={[styles.containerLayout, isDarkThemeEnabled? {backgroundColor: '#181818'} : {backgroundColor: 'white'}]}>
 
-            {inputActivated ? <TogglesInput keyboardToggle={keyboardDisable} submitInput={submitInputText} currentText={inputText}/>  : null}
-      
-            <TextInput 
-                onFocus={keyboardActivated}
-                style = {[inputActivated? styles.inputContainerActivated : styles.inputContainer, isDarkThemeEnabled? {backgroundColor: '#181818', color: 'white'} : {backgroundColor: 'white', color: 'black'}]}
-                value = {inputText}
-                placeholder="Enter Text"          
-                textAlignVertical="top"
-                multiline
-                placeholderTextColor={isDarkThemeEnabled? "#3E3E3E" : '#8B8B8B'}
-                keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
-                onChangeText={text => setInputText(text)}
-                onEndEditing={endEditing}
-                returnKeyType= "send"
-                onKeyPress={enterHandler}
-                />
+            {!isLoading? 
+                <>
+                    {inputActivated ? <TogglesInput keyboardToggle={keyboardDisable} submitInput={submitInputText} currentText={inputText}/>  : null}
 
-            {inputActivated?     
+                    <TextInput 
+                        onFocus={keyboardActivated}
+                        style = {[inputActivated? styles.inputContainerActivated : styles.inputContainer, isDarkThemeEnabled? {backgroundColor: '#181818', color: 'white'} : {backgroundColor: 'white', color: 'black'}]}
+                        value = {inputText}
+                        placeholder={isMicActivated? "Escuchando...": "Enter Text" }         
+                        textAlignVertical="top"
+                        multiline
+                        placeholderTextColor={isDarkThemeEnabled? "#3E3E3E" : '#8B8B8B'}
+                        keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                        onChangeText={text => setInputText(text)}
+                        onEndEditing={endEditing}
+                        returnKeyType= "send"
+                        onKeyPress={enterHandler}
+                        />  
+
+                        {inputActivated?     
                 
-                null : 
+                            null : 
+                                    
+                            <View style={styles.micLayout}> 
+                                <VoiceInput setLoading={setIsLoading} sentText={getTextFromMic} setMicActivated={setIsMicActivated}/> 
+                            </View>
+                        } 
                         
-                <View style={styles.micLayout}> 
-                    <VoiceInput /> 
-                </View>
-            }
+                    </>
+                
+                : 
+                    <View style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
+                        <ActivityIndicator size="large" color="white"/>
+                        <Text style={{textAlign: 'center', fontSize: responsiveFontSize(2.5), color: 'white', paddingTop: 5}}>Procesando tu voz...</Text>
+                    </View>      
+                }
+
         </View>
     )
 }
@@ -112,7 +146,7 @@ function TogglesInput({keyboardToggle, submitInput, currentText}){
     )
 }
 
-function VoiceInput(){
+function VoiceInput({setLoading, sentText, setMicActivated}){
     //Variables - state
     const [recording, setRecording] = useState();
     const [recordings, setRecordings] = useState([]);
@@ -120,6 +154,7 @@ function VoiceInput(){
 
     //OnStartRecording
     const startRecording = async () => {
+        setMicActivated(true);
         try {
             const permission = await Audio.requestPermissionsAsync();
       
@@ -138,19 +173,21 @@ function VoiceInput(){
 
     //OnStopRecording
     const stopRecording = async () => {
+        setMicActivated(false);
+        setLoading(true);
         setRecording(undefined);
-
         await recording.stopAndUnloadAsync();
         const uri = recording.getURI();
         let updatedRecordings = [...recordings];
         const { sound, status } = await recording.createNewLoadedSoundAsync();
         updatedRecordings.push({sound: sound,duration: getDurationFormatted(status.durationMillis),file: recording.getURI()});
         setRecordings(updatedRecordings);
+        const data = await speechTotext(uri);
+        setLoading(true);    
 
-        speechTotext(uri).then(response => { 
-            console.log(response) 
-            
-        }).catch(error => { console.error(error)}).finally(() => {console.log("AAAAAAAAAAAAAA")});;
+        if(data){
+            sentText(data.data);
+        }
     }
 
     //GetDuration
