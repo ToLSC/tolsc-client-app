@@ -5,13 +5,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import TranslatorScreenComponent from '../screens/appScreens/translatorScreen/TranslatorScreenComponent';
 import HistoryScreenComponent from '../screens/appScreens/historyScreen/HistoryScreenComponent';
 import UserProfileNavigation from '../screens/appScreens/userProfileScreen/navigation/UserProfileNavigation';
-
 const Tab = createBottomTabNavigator();
 
 export default function AppNavigation({setUserStatus}){
     //Variables - state
-    const {darkThemeEnabled, setDarkThemeEnabled} = useContext(ThemeContext);
+    const {darkThemeEnabled, setDarkThemeEnabled } = useContext(ThemeContext);
     const [isDarkThemeEnabled, changeTheme] = useState(darkThemeEnabled);
+    
+    useEffect(() => { changeThemee(darkThemeEnabled) }, [darkThemeEnabled]);
 
     //Change color theme
     const changeThemee = (data) => { 

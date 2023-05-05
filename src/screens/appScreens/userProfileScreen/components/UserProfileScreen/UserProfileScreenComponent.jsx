@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesing from '@expo/vector-icons/AntDesign';
 import ProfileIcon from '../../../../../assets/icons/ProfileIcon';
 
+
 export default function UserProfileScreenComponent({ navigation, route }) {
 
     //Variables - init
@@ -31,7 +32,6 @@ export default function UserProfileScreenComponent({ navigation, route }) {
     //Logout
     const logoutHandler = () => {
         route.params.setUserStatus(false);
-        route.params.change(false);
         auth.signOut();
     }
 
@@ -52,9 +52,6 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                     <View style={Styles.profileInfoContainer}>
                         <Text style={[Styles.infoProfile, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>{user.displayName}</Text>
                         <Text style={Styles.infoSecProfile}>{user.email}</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-                            <Text style={Styles.editProfileButtonText}>Edit Profile</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -62,23 +59,18 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                     <Text style={[Styles.categoryLabel, isDarkThemeEnabled ? { color: '#3E3E3E' } : { color: '#898989' }]}>Preferences</Text>
                 </View>
 
-                <TouchableOpacity>
-                    <View style={Styles.buttonContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+                    <View style={[Styles.buttonContainer, { marginBottom: 20, paddingRight: 10 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Ionicons name="sunny-outline" size={24} color="#686868" />
-                            <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>DarkMode</Text>
+                            <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Edit profile</Text>
                         </View>
-                        <Switch
-                            value={isDarkThemeEnabled}
-                            onValueChange={changeThemeEmiter}
-                            thumbColor={'#BFD6DA'}
-                            trackColor={{ false: "#686868", true: '#39B4C8' }}
-                        />
+                        <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" />
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={logoutHandler}>
-                    <View style={[Styles.buttonContainer, { marginBottom: 20 }]}>
+                    <View style={[Styles.buttonContainer, { marginBottom: 20, paddingRight: 10 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <AntDesing name="logout" size={24} color="#686868" />
                             <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Log out</Text>

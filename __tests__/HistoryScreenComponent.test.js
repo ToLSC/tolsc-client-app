@@ -22,13 +22,8 @@ jest.mock('react-native-safe-area-context', () => {
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 jest.mock('@expo/vector-icons/Ionicons', () => {
-    return {
-        Ionicons: 'Icon',
-    };
-});
-
-jest.mock('@expo/vector-icons/FontAwesome', () => {
-    return '';
+    const { View } = require('react-native');
+    return (props) => <View testID="Ionicons" {...props} />;
 });
 
 jest.mock('expo-av', () => ({

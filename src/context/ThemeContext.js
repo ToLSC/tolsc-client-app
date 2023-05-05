@@ -7,13 +7,13 @@ export const ThemeProvider = ({ children }) => {
 
     //Variables getColorScheme init
     const colorScheme = Appearance.getColorScheme();
-    const theme = false;
+    let theme = false;
 
     //Validation of color schema
     if (colorScheme === 'dark') theme = true;
 
     //Variables - state
-    const [darkThemeEnabled, setDarkThemeEnabled] = useState(true);
+    const [darkThemeEnabled, setDarkThemeEnabled] = useState(theme);
 
     //Change theme schema
     const changeThemeContext = () => {
