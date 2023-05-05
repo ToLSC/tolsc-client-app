@@ -6,10 +6,9 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { AccountContext } from '../../../context/AccountContext';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import RegisterIcon from '../../../assets/icons/RegisterIcon';
-import BackIcon from '../../../assets/icons/Back';
-
 
 export default function RegisterScreenComponent({ navigation, route }) {
 
@@ -29,7 +28,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
 
     //Create user handler
     const handleCreateUser = () => {
-        if(name.length < 3){
+        if (name.length < 3) {
             alert("Nombre invalido, porfavor vuelve a intentar")
             return
         }
@@ -38,52 +37,54 @@ export default function RegisterScreenComponent({ navigation, route }) {
             .then((user) => {
                 updateProfile(auth.currentUser, { displayName: name }).then(data => {
                     navigation.navigate('loginScreen')
-                }).catch(error => { 
-                    switch(error.code) {
+                }).catch(error => {
+                    switch (error.code) {
                         case 'auth/email-already-in-use':
                             alert('Correo ya esta en uso, por favor utiliza otro')
                             setName('')
                             setEmail('')
                             setPassword('')
                             break;
-                        
+
                         case 'auth/invalid-email':
                             alert('Correo invalido, porfavor vuelve a intentarlo')
                             setName('')
                             setEmail('')
                             setPassword('')
                             break;
-                        
+
                         case 'auth/weak-password':
                             alert('Contraseña muy corta, debe ser de minimo 6 caracteres')
                             setName('')
                             setEmail('')
                             setPassword('')
                             break;
-                }})
-            }).catch((error) => { 
-                switch(error.code) {
+                    }
+                })
+            }).catch((error) => {
+                switch (error.code) {
                     case 'auth/email-already-in-use':
                         alert('Correo ya esta en uso, por favor utiliza otro')
                         setName('')
                         setEmail('')
                         setPassword('')
                         break;
-                    
+
                     case 'auth/invalid-email':
                         alert('Correo invalido, porfavor vuelve a intentarlo')
                         setName('')
                         setEmail('')
                         setPassword('')
                         break;
-                    
+
                     case 'auth/weak-password':
                         alert('Contraseña muy corta, debe ser de minimo 6 caracteres')
                         setName('')
                         setEmail('')
                         setPassword('')
                         break;
-            }});
+                }
+            });
     }
 
     return (
@@ -94,7 +95,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
 
                         <View style={Styles.buttonBackLayout} >
                             <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                                <BackIcon width={25} height={40}/>
+                                <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} />
                             </TouchableOpacity>
                         </View>
 
@@ -111,11 +112,12 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             <View style={Styles.inputContainer}>
                                 <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
                                 <TextInput
+                                    testID='nameInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="Enter your full name"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     value={name}
-                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     onChangeText={text => setName(text)}
                                 />
                             </View>
@@ -123,11 +125,12 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             <View style={Styles.inputContainer}>
                                 <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
                                 <TextInput
+                                    testID='emailInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="example@company.com"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     value={email}
-                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     onChangeText={text => setEmail(text)}
                                 />
                             </View>
@@ -135,11 +138,12 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             <View style={Styles.inputContainer}>
                                 <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Password</Text>
                                 <TextInput
+                                    testID='passwordInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="Your password"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     value={password}
-                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     onChangeText={text => setPassword(text)}
                                     secureTextEntry={true}
                                 />
@@ -147,7 +151,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
                         </View>
 
 
-                        <TouchableOpacity onPress={handleCreateUser} style={[Styles.buttonStyle, { marginTop: 45, marginBottom: 15 }]}>
+                        <TouchableOpacity testID='registerButton' onPress={handleCreateUser} style={[Styles.buttonStyle, { marginTop: 45, marginBottom: 15 }]}>
                             <Text style={Styles.buttonLoginText}>Register</Text>
                         </TouchableOpacity>
 
@@ -162,6 +166,6 @@ export default function RegisterScreenComponent({ navigation, route }) {
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>
-        
+
     )
 }

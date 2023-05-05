@@ -8,7 +8,7 @@ import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-resp
 import { updateProfile, updateEmail, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth'
 import EditIcon from '../../../../../assets/icons/EditIcon';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
-import BackIcon from '../../../../../assets/icons/Back';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function EditProfileScreenComponent({ navigation }) {
 
@@ -34,7 +34,7 @@ export default function EditProfileScreenComponent({ navigation }) {
             if (email !== '' && email !== '') {
                 const credentials = EmailAuthProvider.credential(auth.currentUser.email, password);
 
-                reauthenticateWithCredential(auth.currentUser, credentials).then(()=>{
+                reauthenticateWithCredential(auth.currentUser, credentials).then(() => {
                     updateProfile(auth.currentUser, { displayName: name }).then(() => {
                         updateEmail(auth.currentUser, email).then(() => {
                             navigation.navigate('UserProfile');
@@ -44,25 +44,26 @@ export default function EditProfileScreenComponent({ navigation }) {
                     })
 
                 }).catch((error) => {
-                    switch(error.code) {          
+                    switch (error.code) {
                         case 'auth/invalid-email':
                             alert('Correo invalido, porfavor vuelve a intentarlo')
                             setEmail('')
                             setPassword('')
                             break;
-                        
+
                         case 'auth/user-not-found':
                             alert('Usuario no encontrado, porfavor vuelve a intentarlo')
                             setEmail('')
                             setPassword('')
                             break;
-                        
+
                         case 'auth/wrong-password':
                             alert('Contraseña incorrecta, porfavor vuelve a intentarlo')
                             setEmail('')
                             setPassword('')
                             break;
-                }})
+                    }
+                })
             } else alert("Debe rellenar todos los campos")
         } else alert("Debe ingresar tu contraseña")
     }
@@ -74,7 +75,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                     <View >
                         <View style={Styles.buttonBackLayout} >
                             <TouchableOpacity onPress={() => navigation.navigate('UserProfile')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                                <BackIcon width={25} height={40}/>
+                                <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} />
                             </TouchableOpacity>
                         </View>
 
@@ -93,7 +94,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="Enter your full name"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     value={name}
                                     onChangeText={text => setName(text)}
                                 />
@@ -105,7 +106,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="example@company.com"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     value={email}
                                     onChangeText={text => setEmail(text)}
                                 />
@@ -117,7 +118,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="Your password"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
-                                    keyboardAppearance = {isDarkThemeEnabled? "dark" : 'ligth'}
+                                    keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     value={password}
                                     onChangeText={text => setPassword(text)}
                                     secureTextEntry={true}

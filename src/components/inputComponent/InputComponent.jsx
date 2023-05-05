@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, Keyboard, Text, ActivityIndicator } 
 import { styles } from '../inputComponent/InputComponentStyles';
 import { Audio } from "expo-av";
 import { responsiveFontSize} from "react-native-responsive-dimensions";
-import FontAwesone from '@expo/vector-icons/FontAwesome';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { speechTotext } from "../../services/TranslatorService";
 
 export default function InputComponent( {videoStatus, changeInputStatus, inputData, isDarkThemeEnabled} ){
