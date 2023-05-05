@@ -6,7 +6,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { AccountContext } from '../../../context/AccountContext';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
-// import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import RegisterIcon from '../../../assets/icons/RegisterIcon';
 
@@ -44,7 +44,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
 
                     <View style={Styles.buttonBackLayout} >
                         <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                            {/* <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} /> */}
+                            <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} />
                         </TouchableOpacity>
                     </View>
 
@@ -61,6 +61,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
                         <View style={Styles.inputContainer}>
                             <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
                             <TextInput
+                                testID='nameInput'
                                 style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                 placeholder="Enter your full name"
                                 placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -72,6 +73,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
                         <View style={Styles.inputContainer}>
                             <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
                             <TextInput
+                                testID='emailInput'
                                 style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                 placeholder="example@company.com"
                                 placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -83,6 +85,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
                         <View style={Styles.inputContainer}>
                             <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Password</Text>
                             <TextInput
+                                testID='passwordInput'
                                 style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                 placeholder="Your password"
                                 placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -94,7 +97,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
                     </View>
 
 
-                    <TouchableOpacity onPress={handleCreateUser} style={[Styles.buttonStyle, { marginTop: 45, marginBottom: 15 }]}>
+                    <TouchableOpacity testID='registerButton' onPress={handleCreateUser} style={[Styles.buttonStyle, { marginTop: 45, marginBottom: 15 }]}>
                         <Text style={Styles.buttonLoginText}>Register</Text>
                     </TouchableOpacity>
 

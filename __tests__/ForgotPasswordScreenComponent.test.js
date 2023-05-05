@@ -6,6 +6,7 @@ import { AccountContext } from '../src/context/AccountContext';
 import renderer from 'react-test-renderer';
 import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
+import { sendPasswordResetEmail } from 'firebase/auth'
 
 jest.mock('react-native-safe-area-context', () => {
   const inset = { top: 0, right: 0, bottom: 0, left: 0 }
@@ -21,10 +22,17 @@ jest.mock('react-native-safe-area-context', () => {
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 jest.mock('@expo/vector-icons/Ionicons', () => {
+  const { View } = require('react-native');
+  return (props) => <View testID="Ionicons" {...props} />;
+});
+
+jest.mock('firebase/auth', () => {
   return {
-    Ionicons: 'Icon',
+    sendPasswordResetEmail: jest.fn().mockResolvedValue('Email sent correctly'),
   };
 });
+
+const mockNavigation = { navigate: jest.fn() };
 
 const mockTheme = mockThemeContext();
 
@@ -64,5 +72,23 @@ describe('ForgotPasswordScreenComponent', () => {
     const emailInput = getByPlaceholderText('example@company.com');
     fireEvent.changeText(emailInput, 'test@example.com');
     expect(emailInput.props.value).toBe('test@example.com');
+  });
+
+  it('should call sendPasswordResetEmail when forgot password button is pressed', async () => {
+    const { getByTestId } = render(
+      <ThemeContext.Provider value={mockTheme}>
+        <AccountContext.Provider value={mockAuth}>
+          <ForgotPasswordScreenComponent navigation={mockNavigation} />
+        </AccountContext.Provider>
+      </ThemeContext.Provider>
+    );
+
+    const emailInput = getByTestId('emailInput');
+    const forgotPassButton = getByTestId('forgotPassButton');
+
+    fireEvent.changeText(emailInput, 'johndoe@example.com');
+    fireEvent.press(forgotPassButton);
+
+    expect(sendPasswordResetEmail).toHaveBeenCalledWith(expect.any(Object), 'johndoe@example.com');
   });
 });

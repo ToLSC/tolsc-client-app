@@ -6,6 +6,7 @@ import { AccountContext } from '../src/context/AccountContext';
 import renderer from 'react-test-renderer';
 import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
+import { NavigationContainer } from '@react-navigation/native';
 
 jest.mock('react-native-safe-area-context', () => {
     const inset = { top: 0, right: 0, bottom: 0, left: 0 }
@@ -26,6 +27,22 @@ jest.mock('@expo/vector-icons/Ionicons', () => {
     };
 });
 
+jest.mock('@expo/vector-icons/FontAwesome', () => {
+    return '';
+});
+
+jest.mock('expo-av', () => ({
+    Audio: {
+        Sound: jest.fn(() => ({
+            loadAsync: jest.fn(),
+            unloadAsync: jest.fn(),
+            playAsync: jest.fn(),
+            pauseAsync: jest.fn(),
+            stopAsync: jest.fn(),
+        })),
+    },
+}));
+
 const mockTheme = mockThemeContext();
 
 const mockAuth = mockAuthContext();
@@ -33,11 +50,13 @@ const mockAuth = mockAuthContext();
 describe('HistoryScreenComponent', () => {
     test('renders correctly', () => {
         const tree = renderer.create(
-            <ThemeContext.Provider value={mockTheme}>
-                <AccountContext.Provider value={mockAuth}>
-                    <HistoryScreenComponent />
-                </AccountContext.Provider>
-            </ThemeContext.Provider>).toJSON();
+            <NavigationContainer>
+                <ThemeContext.Provider value={mockTheme}>
+                    <AccountContext.Provider value={mockAuth}>
+                        <HistoryScreenComponent />
+                    </AccountContext.Provider>
+                </ThemeContext.Provider>
+            </NavigationContainer>).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

@@ -6,7 +6,7 @@ import { AccountContext } from '../../../../../context/AccountContext';
 import { Styles } from './EditProfileScreenStyles';
 import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { updateProfile, updateEmail, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth'
-// import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import EditIcon from '../../../../../assets/icons/EditIcon';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 
@@ -54,7 +54,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                 <View style={[{ paddingTop: insets.top, paddingBottom: insets.bottom }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
                     <View style={Styles.buttonBackLayout} >
                         <TouchableOpacity onPress={() => navigation.navigate('UserProfile')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                            {/* <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} /> */}
+                            <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} />
                         </TouchableOpacity>
                     </View>
 

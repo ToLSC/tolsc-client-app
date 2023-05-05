@@ -6,7 +6,7 @@ import { responsiveScreenHeight, responsiveScreenWidth, responsiveFontSize } fro
 import { ThemeContext } from "../../../context/ThemeContext";
 import { AccountContext } from '../../../context/AccountContext';
 import { sendPasswordResetEmail } from 'firebase/auth'
-// import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import LockIcon from "../../../assets/icons/LockIcon";
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 
@@ -34,7 +34,7 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
 
                     <View style={Styles.buttonBackLayout}>
                         <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                            {/* <Ionicons name="arrow-back" size={35} style={{color: '#ccc'}}/> */}
+                            <Ionicons name="arrow-back" size={35} style={{color: '#ccc'}}/>
                         </TouchableOpacity>
                     </View>
 
@@ -54,6 +54,7 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
                         <View style={Styles.inputContainer}>
                             <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
                             <TextInput
+                                testID='emailInput'
                                 style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                 placeholder="example@company.com"
                                 placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -63,7 +64,7 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
                         </View>
                     </View>
 
-                    <TouchableOpacity onPress={resetPasswordHandler}>
+                    <TouchableOpacity testID='forgotPassButton' onPress={resetPasswordHandler}>
                         <View style={[Styles.buttonStyle, { marginVertical: 30 }]}>
                             <Text style={Styles.buttonLoginText}>Send Email</Text>
                         </View>

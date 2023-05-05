@@ -50,6 +50,7 @@ export default function LoginScreenComponent({ navigation, route }) {
                         <View style={Styles.inputContainer}>
                             <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
                             <TextInput
+                                testID='emailInput'
                                 style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                 placeholder="example@company.com"
                                 placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -61,6 +62,7 @@ export default function LoginScreenComponent({ navigation, route }) {
                         <View style={Styles.inputContainer}>
                             <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Password</Text>
                             <TextInput
+                                testID='passwordInput'
                                 style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                 placeholder="Your password"
                                 placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -75,7 +77,7 @@ export default function LoginScreenComponent({ navigation, route }) {
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress={() => handleLogin()}>
+                    <TouchableOpacity testID='loginButton' onPress={() => handleLogin()}>
                         <View style={Styles.buttonStyle}>
                             <Text style={Styles.buttonLoginText}>Login</Text>
                         </View>
@@ -100,7 +102,7 @@ export default function LoginScreenComponent({ navigation, route }) {
 
                     <View style={Styles.createAccountLayout}>
                         <Text style={[Styles.createAccountText, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Not a member?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('registerScreen')}>
+                        <TouchableOpacity testID='toRegisterButton' onPress={() => navigation.navigate('registerScreen')}>
                             <Text style={Styles.createAccountTexthighlight}>Create Account</Text>
                         </TouchableOpacity>
                     </View>

@@ -5,8 +5,8 @@ import { Styles } from './UserProfileScreenComponentStyles';
 import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { AccountContext } from '../../../../../context/AccountContext';
-// import Ionicons from '@expo/vector-icons/Ionicons';
-// import AntDesing from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesing from '@expo/vector-icons/AntDesign';
 import ProfileIcon from '../../../../../assets/icons/ProfileIcon';
 
 export default function UserProfileScreenComponent({ navigation, route }) {
@@ -65,7 +65,7 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                 <TouchableOpacity>
                     <View style={Styles.buttonContainer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {/* <Ionicons name="sunny-outline" size={24} color="#686868" /> */}
+                            <Ionicons name="sunny-outline" size={24} color="#686868" />
                             <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>DarkMode</Text>
                         </View>
                         <Switch
@@ -80,10 +80,10 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                 <TouchableOpacity onPress={logoutHandler}>
                     <View style={[Styles.buttonContainer, { marginBottom: 20 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {/* <AntDesing name="logout" size={24} color="#686868" /> */}
+                            <AntDesing name="logout" size={24} color="#686868" />
                             <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Log out</Text>
                         </View>
-                        {/* <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" /> */}
+                        <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" />
                     </View>
                 </TouchableOpacity>
             </ScrollView>

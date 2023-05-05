@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, Keyboard, Text } from "react-native"
 import { styles } from '../inputComponent/InputComponentStyles';
 import { Audio } from "expo-av";
 import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
-import FontAwesone from '@expo/vector-icons/FontAwesome';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function InputComponent( {videoStatus, changeInputStatus, inputData, isDarkThemeEnabled} ){
 
@@ -164,7 +164,7 @@ function VoiceInput(){
     return(
         <View style={recording? styles.micContainerStop : styles.micContainerPlay}>
             <TouchableOpacity onPress={recording? stopRecording : startRecording} style={{paddingHorizontal: 15, paddingVertical: 10}}> 
-                {recording? <FontAwesone name="stop" size={responsiveFontSize(3.5)} color="#181818"/> : <FontAwesone name="microphone" size={responsiveFontSize(4.5)} color="#181818"/>}    
+                {recording? <FontAwesome name="stop" size={responsiveFontSize(3.5)} color="#181818"/> : <FontAwesome name="microphone" size={responsiveFontSize(4.5)} color="#181818"/>}    
             </TouchableOpacity>
         </View>
     )
