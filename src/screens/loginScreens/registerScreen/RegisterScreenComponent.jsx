@@ -88,9 +88,9 @@ export default function RegisterScreenComponent({ navigation, route }) {
     }
 
     return (
-        <View style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
+        <View testID='registerScreen' style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
             <KeyboardAvoidingView style={Styles.keyboardAvoidingLayout} behavior="height" enabled keyboardVerticalOffset={0}>
-                <ScrollView>
+                <ScrollView testID='scrollView'>
                     <View>
 
                         <View style={Styles.buttonBackLayout} >

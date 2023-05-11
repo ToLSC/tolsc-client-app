@@ -36,7 +36,7 @@ export default function UserProfileScreenComponent({ navigation, route }) {
     }
 
     return (
-        <View style={[isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }, { paddingTop: insets.top, flex: 1 }]} >
+        <View testID='settingsScreen' style={[isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }, { paddingTop: insets.top, flex: 1 }]} >
             <ScrollView style={{ paddingHorizontal: responsiveScreenWidth(4), paddingTop: responsiveScreenHeight(2) }}>
 
                 <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Settings</Text>
@@ -73,7 +73,7 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                     <View style={[Styles.buttonContainer, { marginBottom: 20, paddingRight: 10 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <AntDesing name="logout" size={24} color="#686868" />
-                            <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Log out</Text>
+                            <Text testID='logoutButton' style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Log out</Text>
                         </View>
                         <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" />
                     </View>
