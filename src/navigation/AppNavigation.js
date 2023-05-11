@@ -30,6 +30,7 @@ export default function AppNavigation({setUserStatus}){
                     name='Translator' 
                     component={TranslatorScreenComponent}    
                     options={({ navigation }) => ({
+                        tabBarTestID: "translatorOpt",
                         title: "Translator",
                         tabBarActiveTintColor: '#39B4C8',
                         tabBarIcon: ({ focused, color }) => (<MaterialIcons name="translate" size={23} color="#39B4C8" />)})} 
@@ -37,6 +38,7 @@ export default function AppNavigation({setUserStatus}){
                 <Tab.Screen 
                     name='History' component={HistoryScreenComponent}
                     options={({ navigation }) => ({
+                        tabBarTestID: "historyOpt",
                         unmountOnBlur: true,
                         title: "History",
                         tabBarActiveTintColor: '#39B4C8',
@@ -46,6 +48,7 @@ export default function AppNavigation({setUserStatus}){
                     name='Profile'
                     children={() => <UserProfileNavigation change={changeThemee} setUserStatus={setUserStatus}/>}
                     options={({ navigation }) => ({
+                        tabBarTestID: "settingsOpt",
                         title: "Settings",
                         tabBarActiveTintColor: '#39B4C8',
                         tabBarIcon: ({ focused, color }) => (<MaterialIcons name="settings" size={23} color="#39B4C8"/>)})} />

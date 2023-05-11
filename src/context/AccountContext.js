@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getAuth } from 'firebase/auth'
-import { initializeApp } from 'firebase/app';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeAuth, getAuth } from 'firebase/auth'
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { firebaseConfig } from "../utils/Firebase";
 import { getDatabase } from "firebase/database";
 import { ref, get, push, remove } from "firebase/database";
+import { getReactNativePersistence } from 'firebase/auth/react-native';
 
 export const AccountContext = createContext();
 
@@ -15,8 +17,18 @@ export const AccountProvider = ({ children }) => {
     const FB_FAVORITES_PATH = "favorites/";
 
     // Variables init firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    let app;
+    let auth;
+    if (getApps().length < 1) {
+        app = initializeApp(firebaseConfig);
+        auth = initializeAuth(app, {
+            persistence: getReactNativePersistence(AsyncStorage),
+        });
+    } else {
+        app = getApp();
+        auth = getAuth(app);
+    }
+
     const database = getDatabase(app);
 
     // Variables - state

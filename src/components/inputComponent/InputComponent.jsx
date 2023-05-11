@@ -83,6 +83,7 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
                     {inputActivated ? <TogglesInput keyboardToggle={keyboardDisable} submitInput={submitInputText} currentText={inputText}/>  : null}
 
                     <TextInput 
+                        testID='textInput'
                         onFocus={keyboardActivated}
                         style = {[inputActivated? styles.inputContainerActivated : styles.inputContainer, isDarkThemeEnabled? {backgroundColor: '#181818', color: 'white'} : {backgroundColor: 'white', color: 'black'}]}
                         value = {inputText}
@@ -138,7 +139,7 @@ function TogglesInput({keyboardToggle, submitInput, currentText}){
             </View>
 
             <View style={styles.inputSubmit}>
-                <TouchableOpacity onPress={submitInput} disabled={!validInput}>
+                <TouchableOpacity testID='translateButton' onPress={submitInput} disabled={!validInput}>
                     <Text style={[styles.toggleText, validInput? {color: '#007DF0'} : {color: '#A5A5A5'}]}>Translate</Text>
                 </TouchableOpacity>
             </View>
@@ -162,7 +163,6 @@ function VoiceInput({setLoading, sentText, setMicActivated}){
               await Audio.setAudioModeAsync({allowsRecordingIOS: true,playsInSilentModeIOS: true}); 
               const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
               setRecording(recording);
-
             } else 
                 setMessage("Please grant permission to app to access microphone");
         
