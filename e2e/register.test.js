@@ -23,11 +23,14 @@ describe('Register action test', () => {
     });
 
     it('should not be able to register, insecure password', async () => {
+        await element(by.id('settingsOpt')).tap();
+        await element(by.id('logoutButton')).tap();
+        await expect(element(by.id('loginScreen'))).toBeVisible();
         await element(by.id('toRegisterButton')).tap();
         await element(by.id('nameInput')).typeText('Bad Cena\n');
         await element(by.id('emailInput')).typeText('test@badexample.com\n');
         await element(by.id('passwordInput')).typeText('a\n');
         await element(by.id('registerButton')).tap();
-        await expect(element(by.id('translatorScreen'))).toBeVisible();
+        await expect(element(by.text('Contraseña muy corta, debe ser de minimo 6 caracteres'))).toBeVisible();
     });
 });

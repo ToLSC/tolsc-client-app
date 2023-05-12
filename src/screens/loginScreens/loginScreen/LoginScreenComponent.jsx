@@ -32,19 +32,19 @@ export default function LoginScreenComponent({ navigation, route }) {
         signInWithEmailAndPassword(auth, email, password).then((user) => { setLoginStatus(true) }).catch((error) => {
             switch(error.code) {          
                 case 'auth/invalid-email':
-                    alert('Correo invalido, porfavor vuelve a intentarlo')
+                    alert('Correo invalido, por favor vuelve a intentarlo')
                     setEmail('')
                     setPassword('')
                     break;
                 
                 case 'auth/user-not-found':
-                    alert('Usuario no encontrado, porfavor vuelve a intentarlo')
+                    alert('Usuario no encontrado, por favor vuelve a intentarlo')
                     setEmail('')
                     setPassword('')
                     break;
                 
                 case 'auth/wrong-password':
-                    alert('Contraseña incorrecta, porfavor vuelve a intentarlo')
+                    alert('Contraseña incorrecta, por favor vuelve a intentarlo')
                     setEmail('')
                     setPassword('')
                     break;

@@ -21,7 +21,7 @@ describe('General Tests', () => {
     await element(by.id('passwordInput')).typeText('testpassword14*A\n');
     await element(by.id('loginButton')).tap();
     await expect(element(by.id('translatorScreen'))).toBeVisible();
-});
+  });
 
   it('should be able to navigate to translator screen', async () => {
     await element(by.id('translatorOpt')).tap();
