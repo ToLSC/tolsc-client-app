@@ -8,8 +8,6 @@ import { View } from 'react-native';
 import SignIcon from "../assets/icons/SignIcon";
 import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 
-
-
 export default function MainNavigation(){
 
     //Variables - state
@@ -39,8 +37,6 @@ export default function MainNavigation(){
         transition()
     })
 
-
-
     //Change user data - Login
     const getUserData = (data) => {
         if(data){
@@ -58,11 +54,9 @@ export default function MainNavigation(){
         }
     }
 
-
     return(
         <>
-        {appReady? 
-            
+        {appReady?      
             <ThemeProvider>
                 <NavigationContainer>
                     <AccountProvider>
@@ -78,8 +72,5 @@ export default function MainNavigation(){
             </View>
         }
         </>
-
-        
-
     )
 }
