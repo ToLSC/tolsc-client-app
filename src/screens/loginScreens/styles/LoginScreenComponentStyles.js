@@ -94,19 +94,22 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         verticalAlign: "bottom",
-        marginTop: responsiveScreenHeight(1.5)
+        marginTop: responsiveScreenHeight(1.5),
+        marginBottom: 10
     },
 
     createAccountText:{
         color: 'white',
-        fontSize: 14
+        fontSize: 14,
+        marginTop: 10
     },
 
     createAccountTexthighlight:{
         color: '#3B6CB8',
         paddingLeft: 5,
         fontWeight: '700',
-        fontSize: 15
+        fontSize: 15,
+        marginTop: 10
     },
 
     buttonBackLayout:{

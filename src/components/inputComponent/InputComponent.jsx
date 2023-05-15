@@ -31,7 +31,9 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
     //OnSubmit Input
     const submitInputText = () => {
         if(inputText !== ''){
-            inputData(inputText);
+            let stringCleaned = inputText.replace(/[^\w\s]|(\s*$)/g, '');
+            setInputText(stringCleaned.toLowerCase());
+            inputData(stringCleaned.toLowerCase());
             setInputActivated(false);
             changeInputStatus(false);
         }
@@ -96,7 +98,8 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
                         onEndEditing={endEditing}
                         returnKeyType= "send"
                         onKeyPress={enterHandler}
-                        />  
+                        maxLength={30}                
+                    />  
 
                         {inputActivated?     
                 

@@ -110,23 +110,6 @@ export default function LoginScreenComponent({ navigation, route }) {
                             </View>
                         </TouchableOpacity>
 
-                        <View style={{ flexDirection: "row", alignItems: "center", paddingVertical: responsiveScreenHeight(3.2) }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: "#4F4F50" }} />
-
-                            <View>
-                                <Text style={{ width: 50, textAlign: "center", color: "#4F4F50" }}>Or</Text>
-                            </View>
-
-                            <View style={{ flex: 1, height: 1, backgroundColor: "#4F4F50" }} />
-                        </View>
-
-                        <TouchableOpacity onPress={() => handlerLoginGoogle()}>
-                            <View style={Styles.googleLayout}>
-                                <GoogleIcon width={30} height={30} />
-                                <Text style={[Styles.buttonGoogleText, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Continue with Google</Text>
-                            </View>
-                        </TouchableOpacity>
-
                         <View style={Styles.createAccountLayout}>
                             <Text style={[Styles.createAccountText, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Not a member?</Text>
                             <TouchableOpacity testID='toRegisterButton' onPress={() => navigation.navigate('registerScreen')}>

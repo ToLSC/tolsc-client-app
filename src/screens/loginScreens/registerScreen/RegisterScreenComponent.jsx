@@ -29,7 +29,12 @@ export default function RegisterScreenComponent({ navigation, route }) {
     //Create user handler
     const handleCreateUser = () => {
         if (name.length < 3) {
-            alert("Nombre invalido, porfavor vuelve a intentar")
+            alert("Nombre inválido. Debe tener mínimo 3 caracteres.")
+            return
+        }
+
+        if((!(/[A-Z]/.test(password) && /[\W_]/.test(password))) || password.length < 8){
+            alert("Contraseña inválida. Esta debe tener mínimo 8 caracteres, incluyendo al menos un símbolo y una letra en mayúscula")
             return
         }
 
@@ -108,7 +113,6 @@ export default function RegisterScreenComponent({ navigation, route }) {
                         </View>
 
                         <View>
-
                             <View style={Styles.inputContainer}>
                                 <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
                                 <TextInput
@@ -150,11 +154,9 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             </View>
                         </View>
 
-
                         <TouchableOpacity testID='registerButton' onPress={handleCreateUser} style={[Styles.buttonStyle, { marginTop: 45, marginBottom: 15 }]}>
                             <Text style={Styles.buttonLoginText}>Register</Text>
                         </TouchableOpacity>
-
 
                         <View style={[Styles.createAccountLayout, { marginTop: 0 }]}>
                             <Text style={[Styles.createAccountText, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Already have an account?</Text>
@@ -166,6 +168,5 @@ export default function RegisterScreenComponent({ navigation, route }) {
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>
-
     )
 }
