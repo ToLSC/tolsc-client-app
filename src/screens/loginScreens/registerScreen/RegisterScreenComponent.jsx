@@ -34,7 +34,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
         }
 
         if((!(/[A-Z]/.test(password) && /[\W_]/.test(password))) || password.length < 8){
-            alert("Contraseña inválida. Esta debe tener mínimo 8 caracteres, incluyendo al menos un símbolo y una letra en mayúscula")
+            alert("Contraseña inválida. Esta debe tener mínimo 8 caracteres, incluyendo al menos un símbolo y una letra en mayúscula.")
             return
         }
 

@@ -31,6 +31,6 @@ describe('Register action test', () => {
         await element(by.id('emailInput')).typeText('test@badexample.com\n');
         await element(by.id('passwordInput')).typeText('a\n');
         await element(by.id('registerButton')).tap();
-        await expect(element(by.text('Contraseña muy corta, debe ser de minimo 6 caracteres'))).toBeVisible();
+        await expect(element(by.text('Contraseña inválida. Esta debe tener mínimo 8 caracteres, incluyendo al menos un símbolo y una letra en mayúscula.'))).toBeVisible();
     });
 });

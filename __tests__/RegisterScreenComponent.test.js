@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer';
 import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Alert } from 'react-native';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
@@ -90,6 +91,7 @@ describe('RegisterScreenComponent', () => {
   });
 
   it('should call createUserWithEmailAndPassword and updateProfile when register button is pressed', async () => {
+    jest.spyOn(Alert, 'alert').mockImplementation(() => {});
     const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
@@ -105,9 +107,9 @@ describe('RegisterScreenComponent', () => {
 
     fireEvent.changeText(nameInput, 'John Doe');
     fireEvent.changeText(emailInput, 'johndoe@example.com');
-    fireEvent.changeText(passwordInput, 'password');
+    fireEvent.changeText(passwordInput, 'password14*A');
     fireEvent.press(registerButton);
 
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.any(Object), 'johndoe@example.com', 'password');
+    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.any(Object), 'johndoe@example.com', 'password14*A');
   });
 });

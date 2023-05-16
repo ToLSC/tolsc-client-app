@@ -20,11 +20,10 @@ export default function MainNavigation(){
     useEffect(() => { if(user && !estado) setEstado(true) }, [user])
     
     useEffect(() => { 
-        setMultiply(1.8)
+        setMultiply(1.1)
         transition = async () => {
             try{
-                await new Promise((resolve) => { setTimeout(resolve, 2000) })
-
+                await new Promise((resolve) => { setTimeout(resolve, 1000) })
             }
             catch(e){
                 console.log(e);
@@ -33,7 +32,6 @@ export default function MainNavigation(){
                 setAppReady(true);
             }
         }
-
         transition()
     })
 
@@ -67,7 +65,7 @@ export default function MainNavigation(){
         
             : 
               
-            <View style={{backgroundColor: 'black', flex: 1, justifyContent: 'center', alignItems: 'center',  transform:[{scale:multiply}]}}>                 
+            <View style={{backgroundColor: '#272727', flex: 1, justifyContent: 'center', alignItems: 'center',  transform:[{scale:multiply}]}}>                 
                 <SignIcon width = {responsiveScreenWidth(40)} height={responsiveScreenHeight(40)}/>
             </View>
         }
