@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         marginBottom: 5,
         paddingBottom: responsiveScreenHeight(1),
         borderRadius: 15,
-        paddingHorizontal: responsiveScreenWidth(4),
+        paddingHorizontal: responsiveScreenWidth(2),
         paddingTop: responsiveScreenHeight(2),
         marginHorizontal: responsiveScreenWidth(0.5)
     }, 
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
 
     videoContainer:{     
         flex: 5.5,
-        marginVertical: 5,
+        marginTop: responsiveScreenHeight(2),
         alignItems: 'center',
         verticalAlign: "middle",
     },
@@ -71,6 +71,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         verticalAlign: "bottom",
+        marginTop: responsiveScreenHeight(1)
     }, 
 
     icon: {

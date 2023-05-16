@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
-import { Appearance } from 'react-native';
+import { Appearance, StatusBarStyle } from 'react-native';
+
 
 export const ThemeContext = createContext();
 
@@ -10,7 +11,9 @@ export const ThemeProvider = ({ children }) => {
     let theme = false;
 
     //Validation of color schema
-    if (colorScheme === 'dark') theme = true;
+    if (colorScheme === 'dark'){
+        theme = true;
+    } 
 
     //Variables - state
     const [darkThemeEnabled, setDarkThemeEnabled] = useState(theme);

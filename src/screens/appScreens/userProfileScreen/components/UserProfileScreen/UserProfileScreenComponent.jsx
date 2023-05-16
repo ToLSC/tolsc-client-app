@@ -39,10 +39,10 @@ export default function UserProfileScreenComponent({ navigation, route }) {
         <View testID='settingsScreen' style={[isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }, { paddingTop: insets.top, flex: 1 }]} >
             <ScrollView style={{ paddingHorizontal: responsiveScreenWidth(4), paddingTop: responsiveScreenHeight(2) }}>
 
-                <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Settings</Text>
+                <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Ajustes</Text>
 
                 <View style={[Styles.categoryLayout, isDarkThemeEnabled ? { backgroundColor: '#181818' } : { backgroundColor: 'white' }]}>
-                    <Text style={[Styles.categoryLabel, isDarkThemeEnabled ? { color: '#3E3E3E' } : { color: '#898989' }]}>Profile</Text>
+                    <Text style={[Styles.categoryLabel, isDarkThemeEnabled ? { color: '#3E3E3E' } : { color: '#898989' }]}>Perfil</Text>
                 </View>
 
                 <View style={Styles.profileContainer}>
@@ -56,14 +56,14 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                 </View>
 
                 <View style={[Styles.categoryLayout, isDarkThemeEnabled ? { backgroundColor: '#181818' } : { backgroundColor: 'white' }]}>
-                    <Text style={[Styles.categoryLabel, isDarkThemeEnabled ? { color: '#3E3E3E' } : { color: '#898989' }]}>Preferences</Text>
+                    <Text style={[Styles.categoryLabel, isDarkThemeEnabled ? { color: '#3E3E3E' } : { color: '#898989' }]}>Opciones de usuario</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
                     <View style={[Styles.buttonContainer, { marginBottom: 20, paddingRight: 10 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="sunny-outline" size={24} color="#686868" />
-                            <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Edit profile</Text>
+                            <Ionicons name="create-outline" size={responsiveScreenWidth(8)} color="#686868" />
+                            <Text style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Modificar perfil</Text>
                         </View>
                         <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" />
                     </View>
@@ -72,8 +72,8 @@ export default function UserProfileScreenComponent({ navigation, route }) {
                 <TouchableOpacity onPress={logoutHandler}>
                     <View style={[Styles.buttonContainer, { marginBottom: 20, paddingRight: 10 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <AntDesing name="logout" size={24} color="#686868" />
-                            <Text testID='logoutButton' style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Log out</Text>
+                            <Ionicons name="log-out-outline" size={responsiveScreenWidth(8)} color="#686868" />
+                            <Text testID='logoutButton' style={[Styles.buttonText, isDarkThemeEnabled ? { color: '#DBDBDB' } : { color: '#505050' }]}>Cerrar sesión</Text>
                         </View>
                         <Ionicons name="chevron-forward" size={responsiveScreenWidth(8)} color="#686868" />
                     </View>

@@ -19,7 +19,8 @@ export const Styles = StyleSheet.create({
     title: {
         fontSize: responsiveFontSize(4.5),
         fontWeight: '500',
-        paddingBottom: responsiveScreenHeight (2.5)
+        paddingBottom: responsiveScreenHeight (2.5),
+        marginVertical: responsiveScreenHeight(1)
     },
 
     iconLayout:{
@@ -53,7 +54,7 @@ export const Styles = StyleSheet.create({
         fontWeight: '400',
         color: '#3B6CB8',
         alignSelf: 'flex-end',
-        marginBottom: responsiveScreenHeight(3.5),
+        marginBottom: responsiveScreenHeight(5),
     },
 
     buttonStyle:{
