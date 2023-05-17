@@ -19,7 +19,8 @@ export const Styles = StyleSheet.create({
     title: {
         fontSize: responsiveFontSize(4.5),
         fontWeight: '500',
-        paddingBottom: responsiveScreenHeight (2.5)
+        paddingBottom: responsiveScreenHeight (2.5),
+        marginVertical: responsiveScreenHeight(1)
     },
 
     iconLayout:{
@@ -53,7 +54,7 @@ export const Styles = StyleSheet.create({
         fontWeight: '400',
         color: '#3B6CB8',
         alignSelf: 'flex-end',
-        marginBottom: responsiveScreenHeight(3.5),
+        marginBottom: responsiveScreenHeight(5),
     },
 
     buttonStyle:{
@@ -94,19 +95,22 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         verticalAlign: "bottom",
-        marginTop: responsiveScreenHeight(1.5)
+        marginTop: responsiveScreenHeight(1.5),
+        marginBottom: 10
     },
 
     createAccountText:{
         color: 'white',
-        fontSize: 14
+        fontSize: 14,
+        marginTop: 10
     },
 
     createAccountTexthighlight:{
         color: '#3B6CB8',
         paddingLeft: 5,
         fontWeight: '700',
-        fontSize: 15
+        fontSize: 15,
+        marginTop: 10
     },
 
     buttonBackLayout:{

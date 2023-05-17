@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer';
 import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Alert } from 'react-native';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
@@ -55,41 +56,42 @@ describe('RegisterScreenComponent', () => {
   });
 
   test('elements render correctly', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <RegisterScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const fullName = getByPlaceholderText('Enter your full name');
-    const emailInput = getByPlaceholderText('example@company.com');
-    const passwordInput = getByPlaceholderText('Your password');
-    expect(fullName).toBeTruthy();
+    const nameInput = getByTestId('nameInput');
+    const emailInput = getByTestId('emailInput');
+    const passwordInput = getByTestId('passwordInput');
+    expect(nameInput).toBeTruthy();
     expect(emailInput).toBeTruthy();
     expect(passwordInput).toBeTruthy();
   });
 
   test('updates fullName, email and password state when typing', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <RegisterScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const fullName = getByPlaceholderText('Enter your full name');
-    const emailInput = getByPlaceholderText('example@company.com');
-    const passwordInput = getByPlaceholderText('Your password');
-    fireEvent.changeText(fullName, 'John Cena');
+    const nameInput = getByTestId('nameInput');
+    const emailInput = getByTestId('emailInput');
+    const passwordInput = getByTestId('passwordInput');
+    fireEvent.changeText(nameInput, 'John Cena');
     fireEvent.changeText(emailInput, 'test@example.com');
     fireEvent.changeText(passwordInput, 'testpassword');
-    expect(fullName.props.value).toBe('John Cena');
+    expect(nameInput.props.value).toBe('John Cena');
     expect(emailInput.props.value).toBe('test@example.com');
     expect(passwordInput.props.value).toBe('testpassword');
   });
 
   it('should call createUserWithEmailAndPassword and updateProfile when register button is pressed', async () => {
+    jest.spyOn(Alert, 'alert').mockImplementation(() => {});
     const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
@@ -105,9 +107,9 @@ describe('RegisterScreenComponent', () => {
 
     fireEvent.changeText(nameInput, 'John Doe');
     fireEvent.changeText(emailInput, 'johndoe@example.com');
-    fireEvent.changeText(passwordInput, 'password');
+    fireEvent.changeText(passwordInput, 'password14*A');
     fireEvent.press(registerButton);
 
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.any(Object), 'johndoe@example.com', 'password');
+    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.any(Object), 'johndoe@example.com', 'password14*A');
   });
 });

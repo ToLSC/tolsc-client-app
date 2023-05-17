@@ -97,7 +97,7 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
     return(
         <View testID='videoPlayerComponent' style={[styles.container, isDarkThemeEnabled? {backgroundColor: '#181818'} : {backgroundColor: '#FEFEFE'}]}>
             <View style={styles.stringContainer}>
-                <Text style={styles.titleStyle}>Traducción</Text>
+                <Text style={styles.titleStyle}>Texto traducido</Text>
                 <Text style={[styles.stringStyle, isDarkThemeEnabled? {color: 'white'} : {color: 'black'}]}>{stringTranslated}</Text>
             </View>
       

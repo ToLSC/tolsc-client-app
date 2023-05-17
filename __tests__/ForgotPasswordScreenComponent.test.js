@@ -54,26 +54,26 @@ describe('ForgotPasswordScreenComponent', () => {
   });
 
   test('elements render correctly', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <ForgotPasswordScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const emailInput = getByPlaceholderText('example@company.com');
+    const emailInput = getByTestId('emailInput');
     expect(emailInput).toBeTruthy();
   });
 
   test('updates email state when typing', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <ForgotPasswordScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const emailInput = getByPlaceholderText('example@company.com');
+    const emailInput = getByTestId('emailInput');
     fireEvent.changeText(emailInput, 'test@example.com');
     expect(emailInput.props.value).toBe('test@example.com');
   });

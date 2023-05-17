@@ -16,7 +16,6 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
     
     //OnFocus keyboard activated
     const keyboardActivated = () => {
-        setInputActivated(true);
         changeInputStatus(true);
     }
   
@@ -31,9 +30,12 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
     //OnSubmit Input
     const submitInputText = () => {
         if(inputText !== ''){
-            inputData(inputText);
+            let stringCleaned = inputText.replace(/[^\w\sáéíóúÁÉÍÓÚüÜñÑ]|(\s*$)/g, '');
+            setInputText(stringCleaned.toLowerCase());
+            inputData(stringCleaned.toLowerCase());
             setInputActivated(false);
             changeInputStatus(false);
+            setInputText('');
         }
 
         else{
@@ -54,7 +56,6 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
         if(e.nativeEvent.key == "Enter") submitInputText();
     }
 
-
     //SpeechToTextVariables and Functions
     const setIsLoading = (data) => { setLoading(data) }
     const setIsMicActivated = (data) => { setMicActivated(data) }
@@ -66,12 +67,14 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
             const stringData = textData.toString();
             const newStringData = stringData.substring(1);
             setInputText(newStringData);
+            setInputActivated(true);
             setLoading(false);
         }   
         else{
             alert("Error en la solicitud, por favor intente mas tarde")
             setInputText('');
             setLoading(false);
+            setInputActivated(false);
         }  
     } 
 
@@ -80,14 +83,14 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
 
             {!isLoading? 
                 <>
-                    {inputActivated ? <TogglesInput keyboardToggle={keyboardDisable} submitInput={submitInputText} currentText={inputText}/>  : null}
+                    {inputText.length > 0 ? <TogglesInput keyboardToggle={keyboardDisable} submitInput={submitInputText} currentText={inputText}/>  : null}
 
                     <TextInput 
                         testID='textInput'
                         onFocus={keyboardActivated}
                         style = {[inputActivated? styles.inputContainerActivated : styles.inputContainer, isDarkThemeEnabled? {backgroundColor: '#181818', color: 'white'} : {backgroundColor: 'white', color: 'black'}]}
                         value = {inputText}
-                        placeholder={isMicActivated? "Escuchando...": "Enter Text" }         
+                        placeholder={isMicActivated? "Escuchando...": "Escribe tu texto" }         
                         textAlignVertical="top"
                         multiline
                         placeholderTextColor={isDarkThemeEnabled? "#3E3E3E" : '#8B8B8B'}
@@ -96,14 +99,21 @@ export default function InputComponent( {videoStatus, changeInputStatus, inputDa
                         onEndEditing={endEditing}
                         returnKeyType= "send"
                         onKeyPress={enterHandler}
-                        />  
+                        maxLength={30}                
+                    />  
 
                         {inputActivated?     
                 
-                            null : 
+                            <View style={styles.micLayout}>                
+                                <TouchableOpacity onPress={submitInputText} style={{paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#39B4C8', width: '100%', height: '100%', borderRadius: 100, display: 'flex', alignContent: 'center', justifyContent: 'center'}}> 
+                                    <FontAwesome name="send" size={responsiveFontSize(4)} color="#181818" />
+                                </TouchableOpacity>     
+                            </View>
+                            
+                            : 
                                     
                             <View style={styles.micLayout}> 
-                                <VoiceInput setLoading={setIsLoading} sentText={getTextFromMic} setMicActivated={setIsMicActivated}/> 
+                                <VoiceInput setLoading={setIsLoading} sentText={getTextFromMic} setMicActivated={setIsMicActivated} keyBoradActivate={keyboardActivated}/> 
                             </View>
                         } 
                         
@@ -134,20 +144,20 @@ function TogglesInput({keyboardToggle, submitInput, currentText}){
         <View style={styles.togglesContainer}>
             <View style={styles.closeInput}>
                 <TouchableOpacity onPress={keyboardToggle}>
-                    <Text style={styles.toggleText}>Cancel</Text>
+                    <Text style={styles.toggleText}>Cancelar</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.inputSubmit}>
                 <TouchableOpacity testID='translateButton' onPress={submitInput} disabled={!validInput}>
-                    <Text style={[styles.toggleText, validInput? {color: '#007DF0'} : {color: '#A5A5A5'}]}>Translate</Text>
+                    <Text style={[styles.toggleText, validInput? {color: '#007DF0'} : {color: '#A5A5A5'}]}>Traducir</Text>
                 </TouchableOpacity>
             </View>
         </View>
     )
 }
 
-function VoiceInput({setLoading, sentText, setMicActivated}){
+function VoiceInput({setLoading, sentText, setMicActivated, keyBoradActivate}){
     //Variables - state
     const [recording, setRecording] = useState();
     const [recordings, setRecordings] = useState([]);
@@ -156,6 +166,8 @@ function VoiceInput({setLoading, sentText, setMicActivated}){
     //OnStartRecording
     const startRecording = async () => {
         setMicActivated(true);
+        keyBoradActivate();
+    
         try {
             const permission = await Audio.requestPermissionsAsync();
       

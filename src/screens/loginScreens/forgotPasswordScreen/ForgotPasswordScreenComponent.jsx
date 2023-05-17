@@ -34,12 +34,12 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
                     <View >
                         <View style={Styles.buttonBackLayout}>
                             <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                                <BackIcon width={25} height={40}/>
+                                <BackIcon width={responsiveScreenWidth(7)} height={responsiveScreenHeight(4)}/>
                             </TouchableOpacity>
                         </View>
 
                         <View>
-                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Forgot Password</Text>
+                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Recuperar contraseña</Text>
                         </View>
 
                         <View style={Styles.iconLayout}>
@@ -47,12 +47,12 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
                         </View>
 
                         <View style={{ marginVertical: 25 }}>
-                            <Text style={[Styles.createAccountText, { fontSize: responsiveFontSize(2.5), textAlign: 'center' }, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Enter the email associeate with your account and we´ll send an email with instructions to reset your password</Text>
+                            <Text style={[Styles.createAccountText, { fontSize: responsiveFontSize(2.5), textAlign: 'center' }, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Ingrese el correo electrónico asociado a su cuenta y le enviaremos un correo electrónico con instrucciones para restablecer su contraseña</Text>
                         </View>
 
                         <View>
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Correo</Text>
                                 <TextInput
                                     testID='emailInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
@@ -67,7 +67,7 @@ export default function ForgotPasswordScreenComponent({ navigation }) {
 
                         <TouchableOpacity testID='forgotPassButton' onPress={resetPasswordHandler}>
                             <View style={[Styles.buttonStyle, { marginVertical: 30 }]}>
-                                <Text style={Styles.buttonLoginText}>Send Email</Text>
+                                <Text style={Styles.buttonLoginText}>Enviar correo</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

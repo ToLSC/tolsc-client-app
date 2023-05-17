@@ -31,28 +31,28 @@ export default function AppNavigation({setUserStatus}){
                     component={TranslatorScreenComponent}    
                     options={({ navigation }) => ({
                         tabBarTestID: "translatorOpt",
-                        title: "Translator",
+                        title: "Traductor",
                         tabBarActiveTintColor: '#39B4C8',
-                        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="translate" size={23} color="#39B4C8" />)})} 
+                        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="translate" size={23} color= {focused? "#39B4C8": "#ccc"} />)})} 
                     />
                 <Tab.Screen 
                     name='History' component={HistoryScreenComponent}
                     options={({ navigation }) => ({
                         tabBarTestID: "historyOpt",
                         unmountOnBlur: true,
-                        title: "History",
+                        title: "Historial",
                         tabBarActiveTintColor: '#39B4C8',
-                        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="history" size={25} color="#39B4C8" />)})} />
+                        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="history" size={25} color= {focused? "#39B4C8": "#ccc"} />)})} />
 
                 <Tab.Screen 
                     name='Profile'
                     children={() => <UserProfileNavigation change={changeThemee} setUserStatus={setUserStatus}/>}
                     options={({ navigation }) => ({
                         tabBarTestID: "settingsOpt",
-                        title: "Settings",
+                        title: "Ajustes",
                         tabBarActiveTintColor: '#39B4C8',
-                        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="settings" size={23} color="#39B4C8"/>)})} />
+                        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="settings" size={23} color= {focused? "#39B4C8": "#ccc"}/>)})} />
             </Tab.Navigator>
-        </ThemeProvider>
+        </ThemeProvider> 
     )
 }
