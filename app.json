@@ -28,7 +28,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.SpeectToTextApp",
+      "bundleIdentifier": "com.finalproject.tolsc",
       "infoPlist": {
         "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to convert your speech to text.",
         "NSCameraUsageDescription": "This app uses the camera to let user put a photo in his profile page."
@@ -42,14 +42,14 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.anonymous.SpeectToTextApp"
+      "package": "com.finalproject.tolsc"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "4ee8cd6c-68c9-4a81-aa48-b2147f3ee723"
+        "projectId": "03fe43b5-0558-41d5-996e-6946a32a0623"
       }
     }
   }

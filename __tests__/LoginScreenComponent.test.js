@@ -8,6 +8,10 @@ import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
 jest.mock('react-native-safe-area-context', () => {
   const inset = { top: 0, right: 0, bottom: 0, left: 0 }
   return {
@@ -45,29 +49,29 @@ describe('LoginScreenComponent', () => {
   });
 
   test('elements render correctly', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <LoginScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const emailInput = getByPlaceholderText('example@company.com');
-    const passwordInput = getByPlaceholderText('Your password');
+    const emailInput = getByTestId('emailInput');
+    const passwordInput = getByTestId('passwordInput');
     expect(emailInput).toBeTruthy();
     expect(passwordInput).toBeTruthy();
   });
 
   test('updates email and password state when typing', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={{ mockAuth }}>
           <LoginScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const emailInput = getByPlaceholderText('example@company.com');
-    const passwordInput = getByPlaceholderText('Your password');
+    const emailInput = getByTestId('emailInput');
+    const passwordInput = getByTestId('passwordInput');
     fireEvent.changeText(emailInput, 'test@example.com');
     fireEvent.changeText(passwordInput, 'testpassword');
     expect(emailInput.props.value).toBe('test@example.com');

@@ -80,7 +80,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                         </View>
 
                         <View>
-                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Update Account</Text>
+                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Modificar cuenta</Text>
                         </View>
 
                         <View>
@@ -89,10 +89,11 @@ export default function EditProfileScreenComponent({ navigation }) {
                             </View>
 
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Nombre completo</Text>
                                 <TextInput
+                                    testID='nameInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                    placeholder="Enter your full name"
+                                    placeholder="Ingresa tu nombre completo"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     value={name}
@@ -101,8 +102,9 @@ export default function EditProfileScreenComponent({ navigation }) {
                             </View>
 
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Correo</Text>
                                 <TextInput
+                                    testID='emailInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="example@company.com"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -113,10 +115,11 @@ export default function EditProfileScreenComponent({ navigation }) {
                             </View>
 
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Put your password to save changes*</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Ingresa tu contraseña actual</Text>
                                 <TextInput
+                                    testID='passwordInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                    placeholder="Your password"
+                                    placeholder="Ingresa tu contraseña"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
                                     value={password}
@@ -127,7 +130,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                         </View>
 
                         <TouchableOpacity onPress={editUserHandler} style={[Styles.buttonStyle, { marginVertical: 45 }]}>
-                            <Text style={Styles.buttonLoginText}>Update User</Text>
+                            <Text style={Styles.buttonLoginText}>Actualizar cuenta</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

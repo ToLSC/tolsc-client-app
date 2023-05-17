@@ -8,6 +8,10 @@ import { mockAuthContext } from '../__mocks__/auth.mock';
 import { mockThemeContext } from '../__mocks__/theme.mock';
 import { sendPasswordResetEmail } from 'firebase/auth'
 
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
 jest.mock('react-native-safe-area-context', () => {
   const inset = { top: 0, right: 0, bottom: 0, left: 0 }
   return {
@@ -50,26 +54,26 @@ describe('ForgotPasswordScreenComponent', () => {
   });
 
   test('elements render correctly', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <ForgotPasswordScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const emailInput = getByPlaceholderText('example@company.com');
+    const emailInput = getByTestId('emailInput');
     expect(emailInput).toBeTruthy();
   });
 
   test('updates email state when typing', () => {
-    const { getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <ThemeContext.Provider value={mockTheme}>
         <AccountContext.Provider value={mockAuth}>
           <ForgotPasswordScreenComponent />
         </AccountContext.Provider>
       </ThemeContext.Provider>
     );
-    const emailInput = getByPlaceholderText('example@company.com');
+    const emailInput = getByTestId('emailInput');
     fireEvent.changeText(emailInput, 'test@example.com');
     expect(emailInput.props.value).toBe('test@example.com');
   });

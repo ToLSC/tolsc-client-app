@@ -4,7 +4,8 @@ import { responsiveScreenHeight, responsiveFontSize } from 'react-native-respons
 export const Styles = StyleSheet.create({
     title:{
         fontWeight: 'bold',
-        fontSize: responsiveFontSize(4)
+        fontSize: responsiveFontSize(4),
+        marginBottom: responsiveScreenHeight(1)
     }, 
 
     categoryLayout:{

@@ -5,10 +5,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { AccountContext } from '../../../context/AccountContext';
-import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import RegisterIcon from '../../../assets/icons/RegisterIcon';
+import BackIcon from '../../../assets/icons/Back';
 
 export default function RegisterScreenComponent({ navigation, route }) {
 
@@ -29,7 +29,12 @@ export default function RegisterScreenComponent({ navigation, route }) {
     //Create user handler
     const handleCreateUser = () => {
         if (name.length < 3) {
-            alert("Nombre invalido, porfavor vuelve a intentar")
+            alert("Nombre inválido. Debe tener mínimo 3 caracteres.")
+            return
+        }
+
+        if((!(/[A-Z]/.test(password) && /[\W_]/.test(password))) || password.length < 8){
+            alert("Contraseña inválida. Esta debe tener mínimo 8 caracteres, incluyendo al menos un símbolo y una letra en mayúscula.")
             return
         }
 
@@ -88,19 +93,19 @@ export default function RegisterScreenComponent({ navigation, route }) {
     }
 
     return (
-        <View style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
+        <View testID='registerScreen' style={[{ paddingTop: insets.top }, Styles.containerLayout, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
             <KeyboardAvoidingView style={Styles.keyboardAvoidingLayout} behavior="height" enabled keyboardVerticalOffset={0}>
-                <ScrollView>
+                <ScrollView testID='scrollView'>
                     <View>
 
                         <View style={Styles.buttonBackLayout} >
                             <TouchableOpacity onPress={() => navigation.navigate('loginScreen')} style={{ paddingHorizontal: 5, paddingLeft: 0 }}>
-                                <Ionicons name="arrow-back" size={35} style={{ color: '#ccc' }} />
+                                <BackIcon width={responsiveScreenWidth(7)} height={responsiveScreenHeight(4)}/>
                             </TouchableOpacity>
                         </View>
 
                         <View>
-                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Register</Text>
+                            <Text style={[Styles.title, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Crear cuenta</Text>
                         </View>
 
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: responsiveScreenHeight(1) }}>
@@ -108,13 +113,12 @@ export default function RegisterScreenComponent({ navigation, route }) {
                         </View>
 
                         <View>
-
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Full name</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Nombre completo</Text>
                                 <TextInput
                                     testID='nameInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                    placeholder="Enter your full name"
+                                    placeholder="Ingresa tu nombre completo"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     value={name}
                                     keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
@@ -123,7 +127,7 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             </View>
 
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Email</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Correo</Text>
                                 <TextInput
                                     testID='emailInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
@@ -136,11 +140,11 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             </View>
 
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Password</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Contraseña</Text>
                                 <TextInput
                                     testID='passwordInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
-                                    placeholder="Your password"
+                                    placeholder="Ingresa tu contraseña"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
                                     value={password}
                                     keyboardAppearance={isDarkThemeEnabled ? "dark" : 'ligth'}
@@ -150,22 +154,19 @@ export default function RegisterScreenComponent({ navigation, route }) {
                             </View>
                         </View>
 
-
                         <TouchableOpacity testID='registerButton' onPress={handleCreateUser} style={[Styles.buttonStyle, { marginTop: 45, marginBottom: 15 }]}>
-                            <Text style={Styles.buttonLoginText}>Register</Text>
+                            <Text style={Styles.buttonLoginText}>Registrarse</Text>
                         </TouchableOpacity>
 
-
                         <View style={[Styles.createAccountLayout, { marginTop: 0 }]}>
-                            <Text style={[Styles.createAccountText, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Already have an account?</Text>
+                            <Text style={[Styles.createAccountText, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>¿Ya tienes un cuenta?</Text>
                             <TouchableOpacity onPress={() => navigation.navigate('loginScreen')}>
-                                <Text style={Styles.createAccountTexthighlight}>Login</Text>
+                                <Text style={Styles.createAccountTexthighlight}>Inicias sesión</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>
-
     )
 }

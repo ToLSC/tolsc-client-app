@@ -28,7 +28,7 @@ export default function HistoryScreenComponent() {
     }, [isFocused])
 
     return (
-        <View style={[{ flex: 1, paddingTop: insets.top, position: 'relative'}, isDarkThemeEnabled? {backgroundColor: 'black'} : {backgroundColor: '#F5F4FA'}]}>
+        <View testID='historyScreen' style={[{ flex: 1, paddingTop: insets.top, position: 'relative'}, isDarkThemeEnabled? {backgroundColor: 'black'} : {backgroundColor: '#F5F4FA'}]}>
 
             {history || favorites?     
                 <ScrollView vertical={true} nestedScrollEnabled={true}>
