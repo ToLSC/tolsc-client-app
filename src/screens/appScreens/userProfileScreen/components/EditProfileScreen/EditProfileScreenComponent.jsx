@@ -91,6 +91,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                             <View style={Styles.inputContainer}>
                                 <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Nombre completo</Text>
                                 <TextInput
+                                    testID='nameInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="Ingresa tu nombre completo"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -103,6 +104,7 @@ export default function EditProfileScreenComponent({ navigation }) {
                             <View style={Styles.inputContainer}>
                                 <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Correo</Text>
                                 <TextInput
+                                    testID='emailInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="example@company.com"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
@@ -113,8 +115,9 @@ export default function EditProfileScreenComponent({ navigation }) {
                             </View>
 
                             <View style={Styles.inputContainer}>
-                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Ingresa tu contraseña actual*</Text>
+                                <Text style={[Styles.inputLabel, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}>Ingresa tu contraseña actual</Text>
                                 <TextInput
+                                    testID='passwordInput'
                                     style={[Styles.input, isDarkThemeEnabled ? { color: 'white' } : { color: 'black' }]}
                                     placeholder="Ingresa tu contraseña"
                                     placeholderTextColor={isDarkThemeEnabled ? "#3E3E3E" : '#AFAFAF'}
