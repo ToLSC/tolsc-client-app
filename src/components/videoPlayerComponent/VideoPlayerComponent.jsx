@@ -130,14 +130,14 @@ export default function VideoPlayerComponent({stringTranslated, comStatus, isDar
             <View style={styles.bottomContainer}>      
                 <View>
                     {apiRequestData || !comStatus? 
-                        <TouchableOpacity onPress={favoriteHandler}>
+                        <TouchableOpacity testID='favoriteButton' onPress={favoriteHandler}>
                             <Ionicons name="star-outline" size={responsiveFontSize(3.5)} style={styles.icon} color={favorite? '#FF6666' : '#39B4C8'}/>
                         </TouchableOpacity> 
                     : null}
                 </View>        
 
                 {mainComponent? null:
-                <TouchableOpacity onPress={() => {setComponentStatus(!componentStatus)}}>
+                <TouchableOpacity testID='expandButton' onPress={() => {setComponentStatus(!componentStatus)}}>
                     <Ionicons name="expand" size={responsiveFontSize(3.5)} style={styles.icon} color={'#39B4C8'}/>
                 </TouchableOpacity>}
             </View>

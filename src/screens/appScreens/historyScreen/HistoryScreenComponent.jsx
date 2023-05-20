@@ -9,18 +9,18 @@ import VideoList from '../../../components/videoListComponent/VideoListComponent
 import EmptyIcon from '../../../assets/icons/EmptyIcon';
 
 export default function HistoryScreenComponent() {
-    
+
     //Variables init
     const insets = useSafeAreaInsets();
     const isFocused = useIsFocused();
 
     //Variables - user context
-    const {favorites, history, getHistoryData, getFavoriteData} = useContext(AccountContext);  
- 
+    const { favorites, history, getHistoryData, getFavoriteData } = useContext(AccountContext);
+
     //Darktheme context
-    const {darkThemeEnabled} = useContext(ThemeContext);
+    const { darkThemeEnabled } = useContext(ThemeContext);
     const [isDarkThemeEnabled, changeTheme] = useState(darkThemeEnabled);
-    useEffect(() => { changeTheme(darkThemeEnabled) }, [darkThemeEnabled] );
+    useEffect(() => { changeTheme(darkThemeEnabled) }, [darkThemeEnabled]);
 
     useEffect(() => {
         getHistoryData();
@@ -28,30 +28,30 @@ export default function HistoryScreenComponent() {
     }, [isFocused])
 
     return (
-        <View testID='historyScreen' style={[{ flex: 1, paddingTop: insets.top, position: 'relative'}, isDarkThemeEnabled? {backgroundColor: 'black'} : {backgroundColor: '#F5F4FA'}]}>
+        <View testID='historyScreen' style={[{ flex: 1, paddingTop: insets.top, position: 'relative' }, isDarkThemeEnabled ? { backgroundColor: 'black' } : { backgroundColor: '#F5F4FA' }]}>
 
-            {history || favorites?     
+            {history || favorites ?
                 <ScrollView vertical={true} nestedScrollEnabled={true}>
-                    {favorites? 
-                        <View style={[{flex: 1}]}>
-                            <VideoList section={'Favoritos'} data={favorites} isDarkThemeEnabled={isDarkThemeEnabled} isFavorite={true}/>
-                        </View>: null}
+                    {favorites ?
+                        <View testID='favoritesList' style={[{ flex: 1 }]}>
+                            <VideoList section={'Favoritos'} data={favorites} isDarkThemeEnabled={isDarkThemeEnabled} isFavorite={true} />
+                        </View> : null}
 
-                    {history? 
-                        <View style={[{flex: 1, paddingBottom: responsiveScreenHeight(7)}]}>
-                            <VideoList section={'Historial'} data={history} isDarkThemeEnabled={isDarkThemeEnabled} isFavorite={false}/>
-                        </View>: null}
+                    {history ?
+                        <View testID='historyList' style={[{ flex: 1, paddingBottom: responsiveScreenHeight(7) }]}>
+                            <VideoList section={'Historial'} data={history} isDarkThemeEnabled={isDarkThemeEnabled} isFavorite={false} />
+                        </View> : null}
                 </ScrollView>
-                
-                : 
-                
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>     
-                    <View style={{width: '100%', alignItems: 'center', justifyContent: 'space-around'}}>
-                        <EmptyIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)}/>
-                        <Text style={{textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: '600', paddingHorizontal: responsiveScreenWidth(10), color: '#777777', marginTop: responsiveScreenHeight(2)}}>Historial vacío, prueba buscando una palabra en el traductor</Text>
+
+                :
+
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                    <View style={{ width: '100%', alignItems: 'center', justifyContent: 'space-around' }}>
+                        <EmptyIcon width={responsiveScreenWidth(30)} height={responsiveScreenHeight(15)} />
+                        <Text style={{ textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: '600', paddingHorizontal: responsiveScreenWidth(10), color: '#777777', marginTop: responsiveScreenHeight(2) }}>Historial vacío, prueba buscando una palabra en el traductor</Text>
                     </View>
 
-                  </View>
+                </View>
             }
 
         </View>
